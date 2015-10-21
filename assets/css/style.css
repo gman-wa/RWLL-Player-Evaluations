@@ -218,7 +218,8 @@ fieldset {
 }
 
 #submit_container {
-    width:55%;
+    width:95%;
+    margin-top:100px;
 }
 
 .green_button {
