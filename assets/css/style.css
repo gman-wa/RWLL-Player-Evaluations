@@ -15,19 +15,18 @@ dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
+footer, header, menu, nav, section, summary,
 time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
     outline: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+footer, header, menu, nav, section {
     display: block;
 }
 body {
@@ -41,7 +40,6 @@ blockquote, q {
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-    content: '';
     content: none;
 }
 
@@ -163,8 +161,8 @@ input[type=range]:focus::-ms-fill-upper {
 
 body {
     font-size:2.0em;
-    margin:0px;
-    padding:0px;
+    margin:0;
+    padding:0;
     font-family:"San Francisco",Calibri,Roboto,Arial,sans-serif;
 }
 
@@ -240,9 +238,9 @@ fieldset {
 }
 
 .green_button {
-    -moz-box-shadow:inset 0px 1px 0px 0px #a4e271;
-    -webkit-box-shadow:inset 0px 1px 0px 0px #a4e271;
-    box-shadow:inset 0px 1px 0px 0px #a4e271;
+    -moz-box-shadow:inset 0 1px 0 0 #a4e271;
+    -webkit-box-shadow:inset 0 1px 0 0 #a4e271;
+    box-shadow:inset 0 1px 0 0 #a4e271;
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #89c403), color-stop(1, #77a809));
     background:-moz-linear-gradient(top, #89c403 5%, #77a809 100%);
     background:-webkit-linear-gradient(top, #89c403 5%, #77a809 100%);
@@ -262,7 +260,7 @@ fieldset {
     font-weight:bold;
     padding:10px 30px;
     text-decoration:none;
-    text-shadow:0px 1px 0px #528009;
+    text-shadow:0 1px 0 #528009;
 }
 
 nav {
@@ -288,7 +286,7 @@ nav li {
 button.nav_button {
     height: 100%;
     background: #e3e3e3;
-    border: 0px solid #bbb;
+    border: 0 solid #bbb;
     color: #333;
     font-weight: bold;
     font-size: 70%;
@@ -309,7 +307,7 @@ button.nav_button {
 }
 
 .nav_middle {
-padding-left:0px;
+padding-left:0;
 }
 
 .nav_right {
