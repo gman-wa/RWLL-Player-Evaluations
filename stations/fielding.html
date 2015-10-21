@@ -22,7 +22,7 @@
 
             <div id="player_id_container">
                 <label for="player_eval_id" name="" id="">Player Evaluation ID</label>
-                <input type="text" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="formatPlayerID(value,this);">
+                <input type="number" id="player_eval_id" name="player_eval_id" placeholder="Player ID">
             </div>
 
             <div id="scoring_container">
@@ -61,14 +61,6 @@
 <script type="text/javascript">
 function outputUpdate(val,elm) {
     document.querySelector('#'+elm.id+'_output').value = val;
-}
-function formatPlayerID(val,elm) {
-    var pnum = document.getElementById(elm.id).value.match(/\d+/g);
-    var pletter = document.getElementById(elm.id).value.match(/[ A-Za-z ]/g);
-    var pletter = pletter.toString();
-    var pletter_upper = pletter.toUpperCase();
-    var formatted = pletter_upper+'-'+pnum;
-    document.querySelector('#'+elm.id).value = formatted;
 }
 </script>
 </body>
