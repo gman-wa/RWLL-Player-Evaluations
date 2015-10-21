@@ -177,6 +177,23 @@ a {
     padding:5px;
 }
 
+#main_container::after {
+    content: "";
+    margin-top:100px;
+    background: url(../img/520px-Baseball_svg-min.png) no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    opacity: 0.05;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    height:100%;
+    width:100%;
+}
+
 label {
     margin:40px auto;
 }
@@ -302,10 +319,16 @@ padding-left:0px;
     padding:0;
 }
 
-
 .nav_right img {
     height:40px;
     padding-top:3px;
+}
+
+.rw-logo {
+    background:url(../img/RWLL-Logo-min.png) no-repeat;
+    height:40px;
+    padding-top:3px;
+    z-index:100;
 }
 
 button.green_nav_button {
