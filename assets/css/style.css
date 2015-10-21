@@ -296,6 +296,15 @@ button.nav_button:active {
     right:0;
 }
 
+.nav_middle {
+    width:150px;
+    position:fixed;
+    font-size: 80%;
+    margin: 12px 40%;
+    font-weight:bold;
+}
+
 .nav_right img {
-    height:45px;
+    height:40px;
+    padding-top:3px;
 }
