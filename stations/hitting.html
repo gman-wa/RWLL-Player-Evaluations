@@ -10,13 +10,12 @@
 <nav id="menu">
     <ul>
         <li class="nav_left"><button class="nav_button"><a href="../index.html">Main</a></button></li>
-        <li class="nav_middle">Hitting</li>
+        <li class="nav_middle"><button class="nav_button">Hitting</button></li>
         <li class="nav_right"><img src="../assets/img/RWLL-Logo-min.png" alt="Red West Little League" /></li>
     </ul>
 </nav>
 
 <div id="main_container">
-    <p>Needs real inputs - copied from fielding</p>
     <form action="/services/process.php" method="get">
 
         <fieldset>
@@ -29,17 +28,17 @@
             <div id="scoring_container">
 
                 <div class="player_criteria">
-                    <label for="ground_ball">Ground Balls</label><output for="ground_ball" class="criteria_value" id="ground_ball_output">5</output>
+                    <label for="ground_ball">Contact</label><output for="ground_ball" class="criteria_value" id="ground_ball_output">5</output>
                     <input type="range" id="ground_ball" name="ground_ball" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);">
                 </div>
 
                 <div class="player_criteria">
-                    <label for="fly_ball">Fly Balls</label><output for="fly_ball" class="criteria_value" id="fly_ball_output">5</output>
+                    <label for="fly_ball">Power</label><output for="fly_ball" class="criteria_value" id="fly_ball_output">5</output>
                     <input type="range" id="fly_ball" name="fly_ball" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);">
                 </div>
 
                 <div class="player_criteria">
-                    <label for="throwing">Throwing</label><output for="throwing" class="criteria_value" id="throwing_output">5</output>
+                    <label for="throwing">Mechanics</label><output for="throwing" class="criteria_value" id="throwing_output">5</output>
                     <input type="range" id="throwing" name="throwing" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);">
                 </div>
 
@@ -56,8 +55,16 @@
     </form>
 </div>
 <script type="text/javascript">
-    function outputUpdate(vol,elm) {
-        document.querySelector('#'+elm.id+'_output').value = vol;
+    function outputUpdate(val,elm) {
+        document.querySelector('#'+elm.id+'_output').value = val;
+    }
+    function formatPlayerID(val,elm) {
+        var pnum = document.getElementById(elm.id).value.match(/\d+/g);
+        var pletter = document.getElementById(elm.id).value.match(/[ A-Za-z ]/g);
+        var pletter = pletter.toString();
+        var pletter_upper = pletter.toUpperCase();
+        var formatted = pletter_upper+'-'+pnum;
+        document.querySelector('#'+elm.id).value = formatted;
     }
 </script>
 </body>

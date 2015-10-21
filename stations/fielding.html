@@ -10,7 +10,7 @@
 <nav id="menu">
     <ul>
         <li class="nav_left"><button class="nav_button"><a href="../index.html">Main</a></button></li>
-        <li class="nav_middle">Fielding</li>
+        <li class="nav_middle"><button class="nav_button">Fielding</button></li>
         <li class="nav_right"><img src="../assets/img/RWLL-Logo-min.png" alt="Red West Little League" /></li>
     </ul>
 </nav>
@@ -22,7 +22,7 @@
 
             <div id="player_id_container">
                 <label for="player_eval_id" name="" id="">Player Evaluation ID</label>
-                <input type="text" id="player_eval_id" name="player_eval_id" placeholder="Player ID">
+                <input type="text" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="formatPlayerID(value,this);">
             </div>
 
             <div id="scoring_container">
@@ -42,6 +42,10 @@
                     <input type="range" id="throwing" name="throwing" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);">
                 </div>
 
+                <div class="player_criteria">
+                    <label for="throwing">IQ</label><output for="throwing" class="criteria_value" id="throwing_output">5</output>
+                    <input type="range" id="throwing" name="throwing" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);">
+                </div>
 
             </div>
 
@@ -55,8 +59,16 @@
     </form>
 </div>
 <script type="text/javascript">
-function outputUpdate(vol,elm) {
-    document.querySelector('#'+elm.id+'_output').value = vol;
+function outputUpdate(val,elm) {
+    document.querySelector('#'+elm.id+'_output').value = val;
+}
+function formatPlayerID(val,elm) {
+    var pnum = document.getElementById(elm.id).value.match(/\d+/g);
+    var pletter = document.getElementById(elm.id).value.match(/[ A-Za-z ]/g);
+    var pletter = pletter.toString();
+    var pletter_upper = pletter.toUpperCase();
+    var formatted = pletter_upper+'-'+pnum;
+    document.querySelector('#'+elm.id).value = formatted;
 }
 </script>
 </body>
