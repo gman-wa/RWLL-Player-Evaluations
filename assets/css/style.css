@@ -294,7 +294,7 @@ button.nav_button {
     text-shadow: 0 1px 0 #fff;
 }
 
-.nav_button a, .nav_button a:visited {
+#menu a, #menu a:visited {
     color:blue;
 }
 
@@ -302,7 +302,7 @@ button.nav_button {
 
 }
 
-.nav_left button.nav_button:after {
+.nav_left a:after {
     content: "   \279F";
 }
 

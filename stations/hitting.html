@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=no" >
     <title>Hitting - RWLL Player Evaluations</title>
     <link type="text/css" rel="stylesheet" href="../assets/css/style.css" media="screen"/>
 </head>
 <body>
 <nav id="menu">
     <ul>
-        <li class="nav_left"><button class="nav_button" onclick="location.href='/index.html'">Main</button></li>
-        <li class="nav_middle"><button class="nav_button">Hitting</button></li>
+        <li class="nav_left"><a href="/index.html">Main</a></li>
+        <li class="nav_middle">Hitting</li>
         <li class="nav_right"><a href="http://redwestll.org"><img src="../assets/img/RWLL-Logo-min.png"></a></li>
     </ul>
 </nav>
@@ -37,7 +37,7 @@
                     <input type="range" id="hitting_power" name="fly_ball" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
 
-                <div class="hitting_mechanics">
+                <div class="player_criteria">
                     <label for="hitting_mechanics">Mechanics</label><output for="hitting_mechanics" class="criteria_value" id="hitting_mechanics_output">5</output>
                     <input type="range" id="hitting_mechanics" name="hitting_mechanics" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
