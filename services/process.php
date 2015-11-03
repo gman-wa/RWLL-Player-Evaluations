@@ -35,13 +35,13 @@
 
     <h2>Back to Station</h2>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='stations/fielding.html'">Fielding</button></div>
+    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/fielding.html'">Fielding</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='stations/hitting.html'">Hitting</button></div>
+    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/hitting.html'">Hitting</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='stations/pitching.html'">Pitching</button></div>
+    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/pitching.html'">Pitching</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='stations/registration.html'">Registration</button></div>
+    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/registration.html'">Registration</button></div>
 
 </div>
 </body>
