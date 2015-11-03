@@ -210,7 +210,7 @@ input[type=text] {
     margin-top:10px;
 }
 
-input[type=number] {
+input[type=number], input[type=tel] {
     padding:5px;
     line-height:1.0;
     width:80%;
