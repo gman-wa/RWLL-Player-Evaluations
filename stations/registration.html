@@ -39,7 +39,15 @@
 
             </div>
 
+            <div id="error_messages">
+                <div class="error_message" id="player_eval_id_error" style="display:none;">
+                    <p>Missing/Invalid: Player ID</p>
+                </div>
+            </div>
+
             <div id="submit_container">
+                <input type="hidden" id="origin_lat" name="origin_lat" value="" />
+                <input type="hidden" id="origin_lon" name="origin_lon" value="" />
                 <label for="eval_submit" style="display:none">Save Player</label>
                 <input type="submit" id="eval_submit" class="green_button" value="Save Player">
             </div>
@@ -48,5 +56,46 @@
 
     </form>
 </div>
+<script type="text/javascript">
+
+    /* ---- GEO  */
+
+    function initGeolocation() {
+        if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        } else {
+            //    console.log('Geolocation is not supported');
+        }
+    }
+
+    function errorCallback() {}
+
+    function successCallback(position) {
+        //console.log('lat:'+position.coords.latitude);
+        //console.log('lon:'+position.coords.longitude);
+        document.getElementById("origin_lat").value = position.coords.latitude;
+        document.getElementById("origin_lon").value = position.coords.longitude;
+    }
+
+    // do we want to store the geo-location of the user doing data entry?
+    initGeolocation();
+
+    /* ----- END GEO */
+
+    function Validatorinator() {
+        document.getElementById("player_eval_id_error").style.display = "none";
+        var playerID = document.getElementById("player_eval_id").value;
+        var playerIDInt = parseInt(playerID);
+        if(playerID == '' || (playerIDInt < 1000 || playerIDInt > 3000)) {
+            document.getElementById("player_eval_id_error").style.display = "block";
+            //    document.getElementById("player_eval_id").focus();
+            return false;
+        }
+        if(playerID != '') {
+            return true;
+        }
+    }
+
+</script>
 </body>
 </html>
