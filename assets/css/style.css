@@ -356,3 +356,12 @@ button.green_nav_button a, button.green_nav_button:visited {
 .nav_button_container {
     margin:30px 0;
 }
+
+.error_messages {
+    width:90%;
+}
+
+.error_message {
+    color:red;
+    font-size:90%;
+}

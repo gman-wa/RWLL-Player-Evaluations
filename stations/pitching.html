@@ -16,13 +16,13 @@
 </nav>
 
 <div id="main_container">
-    <form action="/services/process.php" method="get">
+    <form action="/services/process.php" method="get" onsubmit="return Validatorinator();">
 
         <fieldset>
 
             <div id="player_id_container">
                 <label for="player_eval_id" name="" id="">Player Evaluation ID</label>
-                <input type="tel" id="player_eval_id" name="player_eval_id" placeholder="Player ID" required="required">
+                <input type="tel" id="player_eval_id" name="player_eval_id" placeholder="Player ID">
             </div>
 
             <div id="scoring_container">
@@ -42,10 +42,20 @@
                     <input type="range" id="pitching_mechanics" name="pitching_mechanics" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
 
+            </div>
 
+            <div id="error_messages">
+                <div class="error_message" id="player_eval_id_error" style="display:none;">
+                    <p>Missing/Invalid: Player ID</p>
+                </div>
+                <div class="error_message" id="pitching_velocity_error" style="display:none;">
+                    <p>Missing: Pitch Velocity</p>
+                </div>
             </div>
 
             <div id="submit_container">
+                <input type="hidden" id="origin_lat" name="origin_lat" value="" />
+                <input type="hidden" id="origin_lon" name="origin_lon" value="" />
                 <label for="eval_submit" style="display:none">Save Player</label>
                 <input type="submit" id="eval_submit" class="green_button" value="Save">
             </div>
@@ -57,6 +67,64 @@
 <script type="text/javascript">
     function outputUpdate(val,elm) {
         document.querySelector('#'+elm.id+'_output').value = val;
+    }
+
+    /* ---- GEO  */
+
+    function initGeolocation() {
+        if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        } else {
+            //    console.log('Geolocation is not supported');
+        }
+    }
+
+    function errorCallback() {}
+
+    function successCallback(position) {
+        //console.log('lat:'+position.coords.latitude);
+        //console.log('lon:'+position.coords.longitude);
+        document.getElementById("origin_lat").value = position.coords.latitude;
+        document.getElementById("origin_lon").value = position.coords.longitude;
+    }
+
+    // do we want to store the geo-location of the user doing data entry?
+    initGeolocation();
+
+    /* ----- END GEO */
+
+    function Validatorinator() {
+
+        document.getElementById("player_eval_id_error").style.display = "none";
+        document.getElementById("pitching_velocity_error").style.display = "none";
+        var playerID = document.getElementById("player_eval_id").value;
+        var playerIDInt = parseInt(playerID);
+        var pitch_speed = document.getElementById("pitching_velocity").value;
+        var playerID_error = false;
+        var pitch_speed_error = false;
+        //    console.log('id: '+playerID);
+        if(playerID == '' || (playerIDInt < 1000 || playerIDInt > 3000)) {
+            playerID_error = true;
+        }
+        if(pitch_speed == '') {
+            pitch_speed_error = true;
+        }
+        if(playerID_error == true && pitch_speed_error == true) {
+            //    console.log('both');
+            document.getElementById("player_eval_id_error").style.display = "block";
+            document.getElementById("pitching_velocity_error").style.display = "block";
+            return false;
+        } else if(playerID_error == true && pitch_speed_error == false) {
+            //   console.log('just player');
+            document.getElementById("player_eval_id_error").style.display = "block";
+            return false;
+        } else if(playerID_error == false && pitch_speed_error == true) {
+            //    console.log('just baserunning');
+            document.getElementById("pitching_velocity_error").style.display = "block";
+            return false;
+        } else {
+            return true;
+        }
     }
 </script>
 </body>
