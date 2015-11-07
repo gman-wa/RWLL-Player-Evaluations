@@ -17,12 +17,17 @@
 
 <div id="main_container">
     <form action="/services/process.php" method="get" onsubmit="return Validatorinator();">
+        <input type="hidden" name="action" value="fielding" />
 
         <fieldset>
 
             <div id="player_id_container">
                 <label for="player_eval_id" name="" id="">Player Evaluation ID</label>
-                <input type="tel" id="player_eval_id" name="player_eval_id" placeholder="Player ID">
+                <input type="tel" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="getImage();">
+            </div>
+
+            <div id="player_photo_container">
+
             </div>
 
             <div id="scoring_container">
@@ -108,6 +113,32 @@ function Validatorinator() {
         return true;
     }
 }
+
+/* player image loading */
+
+function getImage() {
+    var player_id = document.querySelector('#player_eval_id').value;
+    /*
+     var cb = function() {
+     var l = document.createElement('img');
+     l.src = 'https://s3.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/player-image-'+player_id+'.jpg';
+     var h = document.getElementById('player_photo_container');h.appendChild(l); //h.parentNode.insertBefore(l, h);
+     };
+     */
+    var lpi =function() {
+        var pi = new Image();
+        pi.onerror=showError;
+        pi.src='https://s3.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/player-image-'+player_id+'.jpg';
+        var h = document.getElementById('player_photo_container');h.innerHTML = ''; h.appendChild(pi);
+    };
+
+    lpi();
+}
+
+function showError() {
+    var h = document.getElementById('player_photo_container');h.innerHTML = "<div class='picture_error'>No Image for Player</div>";
+}
+
 
 </script>
 </body>

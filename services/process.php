@@ -7,17 +7,21 @@
  */
 
 // file uploads
+$s3_resize_image = FALSE;
 if($_SERVER['REQUEST_METHOD'] == "POST") {
     include("process_photo.php");
-    include("process_data.php");
+//    include("process_data.php");
 }
 
 // other data
 if($_SERVER['REQUEST_METHOD'] == "GET") {
 //look for player_eval_id
-    include("process_data.php");
+    $request = array();
+    $request['user'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (int) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
+    if(isset($request['user'])) {
+        include("process_data.php");
+    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,16 +43,26 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
 <div id="main_container">
 
     <?php
-        echo "<pre>GET Data Sent:";
-        print_r($_GET);
-        echo "</pre>";
+        if($success) {
+            echo "<h1>Data Saved</h1>";
 
-        if($s3_resize_image) {
-            echo "<div><img src='".$s3_resize_image."'/></div>";
+            echo "<pre>Data Sent:";
+            print_r($_REQUEST);
+            echo "</pre>";
+
+            if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($request['action']) && $request['action'] == "registration" && $s3_resize_image) {
+                echo "<div><img src='" . $s3_resize_image . "'/></div>";
+            }
+        } else {
+            echo "<h1>Error: Data Not Saved</h1>";
+
+            echo "<pre>Data Sent:";
+            print_r($_REQUEST);
+            echo "</pre>";
+
         }
     ?>
 
-    <h1>Data Saved</h1>
 
     <h2>Back to Station</h2>
 

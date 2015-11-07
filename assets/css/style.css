@@ -366,9 +366,18 @@ button.green_nav_button a, button.green_nav_button:visited {
     font-size:90%;
 }
 
+.picture_error {
+    color: red;
+    margin: 20px 0;
+}
+
+#player_photo_container {
+    margin: 20px auto;
+}
+
 /* styling file inputs */
 
-.js .inputfile {
+.inputfile {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;

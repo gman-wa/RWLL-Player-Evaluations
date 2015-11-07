@@ -17,6 +17,7 @@
 
 <div id="main_container">
     <form action="/services/process.php" method="post" enctype="multipart/form-data" onsubmit="return Validatorinator();">
+        <input type="hidden" name="action" value="registration" />
 
         <fieldset>
 
@@ -26,6 +27,16 @@
             </div>
 
             <div id="scoring_container">
+
+                <div class="player_criteria">
+                    <label for="player_first_name">First Name</label>
+                    <input type="text" id="player_first_name" name="player_first_name" required="required">
+                </div>
+
+                <div class="player_criteria">
+                    <label for="player_last_name">Last Name</label>
+                    <input type="text" id="player_last_name" name="player_last_name" required="required">
+                </div>
 
                 <div class="player_criteria">
                     <input type="file" id="registration_photo" name="registration_photo" capture="camera" accept="image/*" class="inputfile inputfile-3" />

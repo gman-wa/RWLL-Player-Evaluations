@@ -5,22 +5,30 @@
  * Date: 11/4/15
  * Time: 5:56 PM
  */
-ini_set("memory_limit","96M");
+    ini_set("memory_limit","96M");
 
-function logError($level,$message) {
-    error_log($message,0);
-    if($level == "fatal" && isset($_SERVER['SERVER_PROTOCOL'])) {
-        $code = (string) "500";
-        $status = return_status($code);
-        $status ? header($status) : NULL ;
-    //    include(getenv('DOCUMENT_ROOT') . "/inc/locale/en-us/".$code.".xml");
-        die();
-    } elseif($level == "fatal" && !isset($_SERVER['SERVER_PROTOCOL'])) {
-        die("error");
+    function logError($level,$message) {
+        error_log($message,0);
+        if($level == "fatal" && isset($_SERVER['SERVER_PROTOCOL'])) {
+            $code = (string) "500";
+            $status = return_status($code);
+            $status ? header($status) : NULL ;
+        //    include(getenv('DOCUMENT_ROOT') . "/inc/locale/en-us/".$code.".xml");
+            die();
+        } elseif($level == "fatal" && !isset($_SERVER['SERVER_PROTOCOL'])) {
+            die("error");
+        }
     }
-}
 
-    $request['user'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (string) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_STRING) : FALSE;
+    $success = FALSE;
+
+    $request = array();
+    $request['player_eval_id'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (int) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
+    $request['player_first_name'] = isset($_POST['player_first_name']) && $_POST['player_first_name'] != "" ? (string) filter_var($_POST['player_first_name'], FILTER_SANITIZE_STRING) : FALSE;
+    $request['player_last_name'] = isset($_POST['player_last_name']) && $_POST['player_last_name'] != "" ? (string) filter_var($_POST['player_last_name'], FILTER_SANITIZE_STRING) : FALSE;
+    $request['action'] = isset($_POST['action']) && $_POST['action'] != "" ? (string) filter_var($_POST['action'], FILTER_SANITIZE_STRING) : FALSE;
+    $request['origin_lat'] = isset($_POST['origin_lat']) && $_POST['origin_lat'] != "" ? (float) filter_var($_POST['origin_lat'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
+    $request['origin_lon'] = isset($_POST['origin_lon']) && $_POST['origin_lon'] != "" ? (float) filter_var($_POST['origin_lon'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
 
     define("EVAL_PHOTO_FILEPATH",getenv('DOCUMENT_ROOT')."/assets/img/players/");
 
@@ -33,15 +41,16 @@ function logError($level,$message) {
     $tmp_file_name = $_FILES['registration_photo']['tmp_name'];
 
     // new filename
-    $file_name = "player-image-".$request['user'] . "." . substr(strrchr($original_file_name, '.'), 1);// substr($original_file_name,-3);
+    $file_name = "player-image-".$request['player_eval_id'] . "." . substr(strrchr($original_file_name, '.'), 1);// substr($original_file_name,-3);
     $full_size_file_name = "original-".$file_name;
-    $final_file_name = "player-image-".$request['user'] . ".jpg";
+    $final_file_name = "player-image-".$request['player_eval_id'] . ".jpg";
     $rotated_file_name = "rotate-".$file_name;
 
-    // delete any prior images
+    $image_checker = FALSE;
+    $image_rotated = FALSE;
 
     if (!move_uploaded_file($tmp_file_name, EVAL_PHOTO_FILEPATH . $full_size_file_name)) {
-        logError("warning",$request['user'] . " Photo upload unsuccessful. Check uploaded file validity.  Error: ".$_FILES['registration_photo']['error']);
+        logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Check uploaded file validity.  Error: ".$_FILES['registration_photo']['error']);
         exit;
     }
 
@@ -49,7 +58,7 @@ function logError($level,$message) {
 
     if(!stristr($type,"image")) {
         //todo - throw an error
-        logError("warning",$request['user'] . " Photo upload unsuccessful. Not an image file. Exiting.");
+        logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Not an image file. Exiting.");
         exit;
     }
 
@@ -108,7 +117,7 @@ function logError($level,$message) {
     $iheight = (int) 0;
     list($iwidth,$iheight) = getimagesize(EVAL_PHOTO_FILEPATH . $file_name);
     if($iwidth > "300") {
-        logError("warning",$request['user'] . " Uploaded file pixel width too large: " . $iwidth . "/".$iheight." - Performing resize/resample");
+        logError("warning",$request['player_eval_id'] . " Uploaded file pixel width too large: " . $iwidth . "/".$iheight." - Performing resize/resample");
         $max_width = (int) 300;
 
         /*
@@ -124,12 +133,12 @@ function logError($level,$message) {
         $max_height =floor($iheight*$reduce_ratio);
     //    $max_height = (int) 300;
 
-        logError("warning",$request['user'] . " New Width: " . $max_width . " | New Height: ". $max_height. " | Type: ".$type);
+        logError("warning",$request['player_eval_id'] . " New Width: " . $max_width . " | New Height: ". $max_height. " | Type: ".$type);
 
         // Resample
         $image_p = imagecreatetruecolor($max_width, $max_height);
 
-        logError("warning",$request['user'] . " Filepath: ".EVAL_PHOTO_FILEPATH . $file_name);
+        logError("warning",$request['player_eval_id'] . " Filepath: ".EVAL_PHOTO_FILEPATH . $file_name);
 
         if($type == "image/jpeg") {
             if($rotate_fix) {
@@ -160,8 +169,8 @@ function logError($level,$message) {
         // always create jpeg
         imagejpeg($image_p,EVAL_PHOTO_FILEPATH . $final_file_name);
         imagedestroy($image_p);
-        imagedestroy($image_checker);
-        imagedestroy($image_rotated);
+        if($image_checker) imagedestroy($image_checker);
+        if($image_rotated) imagedestroy($image_rotated);
     }
     chmod(EVAL_PHOTO_FILEPATH . $final_file_name,0666);
 
@@ -184,4 +193,11 @@ function logError($level,$message) {
     $s3_resize_image = $s3->uploadPlayerImage($file);
     $s3->uploadPlayerImage($file_original);
 
+    if($s3_resize_image) {
+        $success = TRUE;
+        include(getenv('DOCUMENT_ROOT') . "/inc/model/rwll.mysql.class.php");
+        $rdb = new eval_db();
+        $request['player_img'] = $final_file_name;
+        $success = $rdb->saveRegistration($request);
+    }
 ?>

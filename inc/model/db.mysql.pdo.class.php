@@ -6,6 +6,8 @@
  * Time: 12:05 PM
  */
 
+require(getenv('DOCUMENT_ROOT')."/inc/model/db.config.php");
+
 class Database
 {
     private $host   = DB_HOST;
