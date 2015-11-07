@@ -6,6 +6,14 @@
  * Time: 2:44 PM
  */
 
+/**
+ * this requires the AWS PHP SDK
+ * http://docs.aws.amazon.com/aws-sdk-php/v3/guide/getting-started/installation.html
+ * below was tested against v3.9.3
+ * AWS_PHP_SDK_PATH should be set to the
+ * path for the SDK on your system
+ */
+
 define("AWS_PHP_SDK_PATH","/www/common/libs/aws/");
 
 require AWS_PHP_SDK_PATH . "aws-autoloader.php";
