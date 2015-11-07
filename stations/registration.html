@@ -16,7 +16,7 @@
 </nav>
 
 <div id="main_container">
-    <form action="/services/process.php" method="get">
+    <form action="/services/process.php" method="post" enctype="multipart/form-data" onsubmit="return Validatorinator();">
 
         <fieldset>
 
@@ -28,13 +28,13 @@
             <div id="scoring_container">
 
                 <div class="player_criteria">
-                    <label for="registration_photo">Player Photo - v1 - capture and accept attributes</label>
-                    <input type="file" id="registration_photo" name="registration_photo" capture="camera" accept="image/*">
+                    <input type="file" id="registration_photo" name="registration_photo" capture="camera" accept="image/*" class="inputfile inputfile-3" />
+                    <label for="registration_photo"><span>Player Photo - v1 - capture and accept attributes&hellip;</span></label>
                 </div>
 
                 <div class="player_criteria">
-                    <label for="registration_photo_v2">Player Photo - v2 - no capture and accept attributes</label>
-                    <input type="file" id="registration_photo_v2" name="registration_photo_v2">
+                    <input type="file" id="registration_photo_v2" name="registration_photo_v2" class="inputfile inputfile-3" />
+                    <label for="registration_photo_v2"><span>Player Photo - v2 - no capture and accept attributes&hellip;</span></label>
                 </div>
 
             </div>
@@ -96,6 +96,41 @@
         }
     }
 
+
+    /*
+     By Osvaldas Valutis, www.osvaldas.info
+     Available for use under the MIT License
+     */
+
+    'use strict';
+
+    ;( function ( document, window, index )
+    {
+        var inputs = document.querySelectorAll( '.inputfile' );
+        Array.prototype.forEach.call( inputs, function( input )
+        {
+            var label	 = input.nextElementSibling,
+                    labelVal = label.innerHTML;
+
+            input.addEventListener( 'change', function( e )
+            {
+                var fileName = '';
+                if( this.files && this.files.length > 1 )
+                    fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+                else
+                    fileName = e.target.value.split( '\\' ).pop();
+
+                if( fileName )
+                    label.querySelector( 'span' ).innerHTML = fileName;
+                else
+                    label.innerHTML = labelVal;
+            });
+
+            // Firefox bug fix
+            input.addEventListener( 'focus', function(){ input.classList.add( 'has-focus' ); });
+            input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
+        });
+    }( document, window, 0 ));
 </script>
 </body>
 </html>

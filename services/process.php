@@ -5,6 +5,19 @@
  * Date: 10/21/15
  * Time: 8:17 AM
  */
+
+// file uploads
+if($_SERVER['REQUEST_METHOD'] == "POST") {
+    include("process_photo.php");
+    include("process_data.php");
+}
+
+// other data
+if($_SERVER['REQUEST_METHOD'] == "GET") {
+//look for player_eval_id
+    include("process_data.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,9 +39,13 @@
 <div id="main_container">
 
     <?php
-        echo "<pre>Data Sent:";
+        echo "<pre>GET Data Sent:";
         print_r($_GET);
         echo "</pre>";
+
+        if($s3_resize_image) {
+            echo "<div><img src='".$s3_resize_image."'/></div>";
+        }
     ?>
 
     <h1>Data Saved</h1>
