@@ -33,17 +33,17 @@
 
                 <div class="player_criteria">
                     <label for="hitting_contact">Contact</label><output for="hitting_contact" class="criteria_value" id="hitting_contact_output">5</output>
-                    <input type="range" id="hitting_contact" name="hitting_contact" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
+                    <input type="range" id="hitting_contact" name="hitting_contact" min="0" max="7" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
 
                 <div class="player_criteria">
                     <label for="hitting_power">Power</label><output for="hitting_power" class="criteria_value" id="hitting_power_output">5</output>
-                    <input type="range" id="hitting_power" name="hitting_power" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
+                    <input type="range" id="hitting_power" name="hitting_power" min="1" max="9" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
 
                 <div class="player_criteria">
                     <label for="hitting_mechanics">Mechanics</label><output for="hitting_mechanics" class="criteria_value" id="hitting_mechanics_output">5</output>
-                    <input type="range" id="hitting_mechanics" name="hitting_mechanics" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
+                    <input type="range" id="hitting_mechanics" name="hitting_mechanics" min="1" max="9" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
 
                 <div class="player_criteria">
@@ -55,10 +55,10 @@
 
             <div id="error_messages">
                 <div class="error_message" id="player_eval_id_error" style="display:none;">
-                    <p>Missing/Invalid: Player ID</p>
+                    <p>Player ID Missing or Not Valid</p>
                 </div>
                 <div class="error_message" id="hitting_baserunning_error" style="display:none;">
-                    <p>Missing: Baserunning time</p>
+                    <p>Baserunning Time Missing</p>
                 </div>
             </div>
 

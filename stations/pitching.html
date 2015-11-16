@@ -43,17 +43,17 @@
 
                 <div class="player_criteria">
                     <label for="pitching_mechanics">Mechanics</label><output for="pitching_mechanics" class="criteria_value" id="pitching_mechanics_output">5</output>
-                    <input type="range" id="pitching_mechanics" name="pitching_mechanics" min="0" max="10" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
+                    <input type="range" id="pitching_mechanics" name="pitching_mechanics" min="1" max="9" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
 
             </div>
 
             <div id="error_messages">
                 <div class="error_message" id="player_eval_id_error" style="display:none;">
-                    <p>Missing/Invalid: Player ID</p>
+                    <p>Player ID Missing or Not Valid</p>
                 </div>
                 <div class="error_message" id="pitching_velocity_error" style="display:none;">
-                    <p>Missing: Pitch Velocity</p>
+                    <p>Pitching Velocity Required</p>
                 </div>
             </div>
 

@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
         if($success) {
             echo "<h1>Data Saved</h1>";
 
-            echo "<pre>Data Sent:";
+            echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
             print_r($_REQUEST);
             echo "</pre>";
 
@@ -54,9 +54,9 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
                 echo "<div><img src='" . $s3_resize_image . "'/></div>";
             }
         } else {
-            echo "<h1>Error: Data Not Saved</h1>";
+            echo "<h1>Error: Data Not Saved or Duplicate</h1>";
 
-            echo "<pre>Data Sent:";
+            echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
             print_r($_REQUEST);
             echo "</pre>";
 
@@ -75,5 +75,10 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
     <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/registration.html'">Registration</button></div>
 
 </div>
+<script typoe="text/javascript">
+    function showData() {
+        document.getElementById("data_sent_container").style.display = "block";
+    }
+</script>
 </body>
 </html>
