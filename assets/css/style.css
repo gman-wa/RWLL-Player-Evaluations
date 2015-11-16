@@ -375,6 +375,10 @@ button.green_nav_button a, button.green_nav_button:visited {
     margin: 20px auto;
 }
 
+#player_photo_container img {
+    width:150px;
+}
+
 /* styling file inputs */
 
 .inputfile {

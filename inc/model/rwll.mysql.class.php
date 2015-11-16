@@ -153,6 +153,43 @@ class eval_db {
 
     }
 
+    function checkPlayerStation($player_id,$station=FALSE) {
+
+        $station_where = FALSE;
+        if($station == "fielding") {
+            $station_where = ' AND (fielding_ground_ball IS NOT NULL OR fielding_fly_ball IS NOT NULL OR fielding_throwing IS NOT NULL OR fielding_iq IS NOT NULL)';
+        }
+        if($station == "pitching") {
+            $station_where = ' AND (pitching_velocity IS NOT NULL OR pitching_accuracy IS NOT NULL OR pitching_mechanics IS NOT NULL)';
+        }
+        if($station == "hitting") {
+            $station_where = ' AND (hitting_contact IS NOT NULL OR hitting_power IS NOT NULL OR hitting_mechanics IS NOT NULL OR hitting_baserunning IS NOT NULL)';
+        }
+
+        if(!$station_where) {
+            return FALSE;
+        }
+
+        $db = new Database();
+        $db->query('SELECT player_eval_id FROM evaluations WHERE player_eval_id = :player_id '.$station_where);
+
+        $db->bind(':player_id', $player_id);
+
+        $db->execute();
+
+        $num_rows = $db->rowCount();
+
+        $row = $db->single();
+
+        if($num_rows > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
+
+    }
+
     function getPlayerStats() {
         /**
          * Select a single row

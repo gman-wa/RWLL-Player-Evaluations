@@ -26,9 +26,8 @@
                 <input type="tel" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="getImage();">
             </div>
 
-            <div id="player_photo_container">
-
-            </div>
+            <div id="player_photo_container"></div>
+            <div id="player_data_container"></div>
 
             <div id="scoring_container">
 
@@ -133,10 +132,24 @@ function getImage() {
     };
 
     lpi();
+
+    var lpd =function() {
+        var pi = new Image();
+        pi.onerror=showDataRecorded;
+        pi.src='/services/data_check.php?s=fielding&pid='+player_id;
+        var h = document.getElementById('player_data_container');h.innerHTML = ''; h.appendChild(pi);
+    };
+
+    lpd();
+
 }
 
 function showError() {
     var h = document.getElementById('player_photo_container');h.innerHTML = "<div class='picture_error'>No Image for Player</div>";
+}
+
+function showDataRecorded() {
+    var h = document.getElementById('player_data_container');h.innerHTML = "<div class='picture_error'>Station data already recorded for player.  Saving data will replace existing data with new data.</div>";
 }
 
 
