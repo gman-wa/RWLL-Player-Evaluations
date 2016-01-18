@@ -163,7 +163,7 @@ body {
     font-size:2.0em;
     margin:0;
     padding:0;
-    font-family:"San Francisco",Calibri,Roboto,Arial,sans-serif;
+    font-family:-apple-system,Roboto,Calibri,Arial,sans-serif;
 }
 
 a {
@@ -178,7 +178,7 @@ a {
 #main_container::after {
     content: "";
     margin-top:100px;
-    background: url(../img/520px-Baseball_svg-min.png) no-repeat;
+    background: url(http://cdn.cybernode.com/i/rwll/520px-Baseball_svg-min.png) no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
     opacity: 0.05;
@@ -219,12 +219,33 @@ input[type=number], input[type=tel] {
     margin-top:10px;
 }
 
+#registration_container input[type=tel] {
+    padding:10px;
+    line-height:1.5;
+    width:80%;
+    font-size:1.2em;
+    border:1px solid grey;
+    margin-top:10px;
+}
+
+#player_id_reg_container {
+    width:90%;
+}
+
 fieldset {
     text-align:center;
 }
 
+#player_container {
+    display: inline-block;
+    height: 150px;
+}
+
 #player_id_container {
-    text-align:left;
+    float: left;
+    width: 49%;
+    height: 150px;
+    text-align: left;
 }
 
 .criteria_value {
@@ -323,7 +344,7 @@ padding-left:0;
 }
 
 .rw-logo {
-    background:url(../img/RWLL-Logo-min.png) no-repeat;
+    background:url(http://cdn.cybernode.com/i/rwll/RWLL-Logo-min.png) no-repeat;
     height:40px;
     padding-top:3px;
     z-index:100;
@@ -372,11 +393,21 @@ button.green_nav_button a, button.green_nav_button:visited {
 }
 
 #player_photo_container {
-    margin: 20px auto;
+    max-height: 150px;
+    overflow: hidden;
+    display: inline-block;
 }
 
 #player_photo_container img {
     width:150px;
+}
+
+#player_data_container {
+    clear:both;
+}
+
+#registration_container {
+    clear:both;
 }
 
 /* styling file inputs */
@@ -394,13 +425,13 @@ button.green_nav_button a, button.green_nav_button:visited {
     max-width: 80%;
     font-size: 1.25rem;
     /* 20px */
-font-weight: 700;
-text-overflow: ellipsis;
-white-space: nowrap;
-cursor: pointer;
-display: inline-block;
-overflow: hidden;
-padding: 0.625rem 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
 /* 10px 20px */
 }
 
