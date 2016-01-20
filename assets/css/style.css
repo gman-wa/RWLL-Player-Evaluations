@@ -328,7 +328,7 @@ button.nav_button {
 }
 
 .nav_middle {
-padding-left:0;
+    padding-left:0;
 }
 
 .nav_right {
@@ -393,12 +393,15 @@ button.green_nav_button a, button.green_nav_button:visited {
 }
 
 #player_photo_container {
-    max-height: 150px;
-    overflow: hidden;
-    display: inline-block;
+
 }
 
 #player_photo_container img {
+    width:150px;
+    height:200px;
+}
+
+.player_image {
     width:150px;
 }
 
@@ -432,7 +435,7 @@ button.green_nav_button a, button.green_nav_button:visited {
     display: inline-block;
     overflow: hidden;
     padding: 0.625rem 1.25rem;
-/* 10px 20px */
+    /* 10px 20px */
 }
 
 .no-js .inputfile + label {
