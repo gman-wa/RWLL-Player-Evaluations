@@ -46,23 +46,22 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
         if($success) {
             echo "<h1>Data Saved</h1>";
 
-            echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
-            print_r($_REQUEST);
-            echo "</pre>";
+        //    echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
+        //    print_r($_REQUEST);
+        //   echo "</pre>";
 
-            if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($request['action']) && $request['action'] == "registration" && $s3_resize_image) {
-                echo "<div><img src='" . $s3_resize_image . "'/></div>";
-            }
+        //    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($request['action']) && $request['action'] == "registration" && $s3_resize_image) {
+        //        echo "<div><img src='" . $s3_resize_image . "'/></div>";
+        //    }
         } else {
             echo "<h1>Error: Data Not Saved or Duplicate</h1>";
 
-            echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
-            print_r($_REQUEST);
-            echo "</pre>";
+        //    echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
+        //    print_r($_REQUEST);
+        //    echo "</pre>";
 
         }
     ?>
-
 
     <h2>Back to Station</h2>
 
