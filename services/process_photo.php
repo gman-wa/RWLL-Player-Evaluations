@@ -7,6 +7,7 @@
  */
     ini_set("memory_limit","96M");
 
+    // TODO - classify this
     function logError($level,$message) {
         error_log($message,0);
         if($level == "fatal" && isset($_SERVER['SERVER_PROTOCOL'])) {
