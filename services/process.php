@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
 
     <?php
         if($success) {
-            echo "<h1>Data Saved</h1>";
+            echo "<h1>Data Saved for player ".$request['user']."</h1>";
 
         //    echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
         //    print_r($_REQUEST);
@@ -54,7 +54,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
         //        echo "<div><img src='" . $s3_resize_image . "'/></div>";
         //    }
         } else {
-            echo "<h1>Error: Data Not Saved or Duplicate</h1>";
+            echo "<h1>Error: Data Not Saved or Duplicate - Player ".$request['user']."</h1>";
 
         //    echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
         //    print_r($_REQUEST);

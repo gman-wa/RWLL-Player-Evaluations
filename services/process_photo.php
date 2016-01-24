@@ -5,7 +5,8 @@
  * Date: 11/4/15
  * Time: 5:56 PM
  */
-    ini_set("memory_limit","96M");
+    // depending on the smartphone and the photo size, imagerotate below may eat up PHP memory, set it accordingly here.
+    ini_set("memory_limit","128M");
 
     // TODO - classify this
     function logError($level,$message) {
@@ -100,7 +101,18 @@
 
         if ($rotate_fix) {
             $image_checker = imagecreatefromjpeg(EVAL_PHOTO_FILEPATH . $full_size_file_name);
-            $image_rotated = imagerotate($image_checker, $degrees, 0);
+            try {
+                $image_rotated = imagerotate($image_checker, $degrees, 0);
+            // https://trowski.com/2015/06/24/throwable-exceptions-and-errors-in-php7/
+            } catch (Throwable $t) {
+                // Executed only in PHP 7, will not match in PHP 5.x
+                logError("warning","image rotate ate up too much memory - ".$t->getMessage()." using non-rotated image");
+                $image_rotated = $image_checker;
+            } catch (Exception $e) {
+                // Executed only in PHP 5.x, will not be reached in PHP 7
+                logError("warning","image rotate ate up too much memory - ".$e->getMessage()." using non-rotated image");
+                $image_rotated = $image_checker;
+            }
             imagejpeg($image_rotated, EVAL_PHOTO_FILEPATH . $file_name);
             // now we have file we can check
         //    copy(EVAL_PHOTO_FILEPATH . $file_name, EVAL_PHOTO_FILEPATH . $rotated_file_name);

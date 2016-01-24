@@ -6,6 +6,7 @@
     <title>Pitching - RWLL Player Evaluations</title>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link type="text/css" rel="stylesheet" href="/assets/css/style-2016011905-min.css" media="screen" />
+    <?php include(getenv('DOCUMENT_ROOT') . "/inc/apple-icons.php"); ?>
 </head>
 <body>
 <nav id="menu">
@@ -159,7 +160,7 @@
         var lpd =function() {
             var pi = new Image();
             pi.onerror=showDataRecorded;
-            pi.src='/services/data_check.php?s=fielding&pid='+player_id;
+            pi.src='/services/data_check.php?s=pitching&pid='+player_id;
             var h = document.getElementById('player_data_container');h.innerHTML = ''; h.appendChild(pi);
         };
 
