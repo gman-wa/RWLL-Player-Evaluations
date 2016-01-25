@@ -10,6 +10,7 @@
 $s3_resize_image = FALSE;
 if($_SERVER['REQUEST_METHOD'] == "POST") {
     include("process_photo.php");
+    $request['user'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (int) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
 //    include("process_data.php");
 }
 
