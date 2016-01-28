@@ -7,10 +7,10 @@
  */
 
 /*
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
  */
 ?>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <link rel="apple-touch-icon" href="http://cdn.cybernode.com/i/rwll/apple-touch-icon.png"/>
 <link rel="apple-touch-icon" sizes="57x57" href="http://cdn.cybernode.com/i/rwll/apple-touch-icon-57x57.png"/>
 <link rel="apple-touch-icon" sizes="72x72" href="http://cdn.cybernode.com/i/rwll/apple-touch-icon-72x72.png"/>

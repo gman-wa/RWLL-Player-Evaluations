@@ -119,6 +119,40 @@ class eval_db {
         }
     }
 
+
+    function saveHittingNoBaserunning($data) {
+
+        $db = new Database();
+        $db->query('INSERT INTO evaluations (player_eval_id,hitting_contact,hitting_power,hitting_mechanics,eval_date,origin_lat,origin_lon)
+                    VALUES (:player_id, :hitting_contact, :hitting_power , :hitting_mechanics , :eval_date, :origin_lat, :origin_lon)
+                    ON DUPLICATE KEY UPDATE
+                    hitting_contact = :hitting_contact,
+                    hitting_power = :hitting_power,
+                    hitting_mechanics = :hitting_mechanics,
+                    eval_date = :eval_date,
+                    origin_lat = :origin_lat,
+                    origin_lon = :origin_lon');
+
+        $data['origin_lat'] = $data['origin_lat'] ? $data['origin_lat'] : NULL;
+        $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
+
+        $db->bind(':player_id', $data['player_eval_id']);
+        $db->bind(':hitting_contact', $data['hitting_contact']);
+        $db->bind(':hitting_power', $data['hitting_power']);
+        $db->bind(':hitting_mechanics', $data['hitting_mechanics']);
+        $db->bind(':eval_date', date("Y-m-d"));
+        $db->bind(':origin_lat', $data['origin_lat']);
+        $db->bind(':origin_lon', $data['origin_lon']);
+
+        $db->execute();
+
+        if($db->lastInsertId()) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     function savePitching($data) {
 
         $db = new Database();
@@ -153,6 +187,35 @@ class eval_db {
 
     }
 
+    function saveBaserunning($data) {
+
+        $db = new Database();
+        $db->query('INSERT INTO evaluations (player_eval_id,hitting_baserunning,eval_date,origin_lat,origin_lon)
+                    VALUES (:player_id, :hitting_baserunning , :eval_date, :origin_lat, :origin_lon)
+                    ON DUPLICATE KEY UPDATE
+                    hitting_baserunning = :hitting_baserunning,
+                    eval_date = :eval_date,
+                    origin_lat = :origin_lat,
+                    origin_lon = :origin_lon');
+
+        $data['origin_lat'] = $data['origin_lat'] ? $data['origin_lat'] : NULL;
+        $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
+
+        $db->bind(':player_id', $data['player_eval_id']);
+        $db->bind(':hitting_baserunning', $data['hitting_baserunning']);
+        $db->bind(':eval_date', date("Y-m-d"));
+        $db->bind(':origin_lat', $data['origin_lat']);
+        $db->bind(':origin_lon', $data['origin_lon']);
+
+        $db->execute();
+
+        if($db->lastInsertId()) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     function checkPlayerStation($player_id,$station=FALSE) {
 
         $station_where = FALSE;
@@ -164,6 +227,12 @@ class eval_db {
         }
         if($station == "hitting") {
             $station_where = ' AND (hitting_contact IS NOT NULL OR hitting_power IS NOT NULL OR hitting_mechanics IS NOT NULL OR hitting_baserunning IS NOT NULL)';
+        }
+        if($station == "hitting_no_baserunning") {
+            $station_where = ' AND (hitting_contact IS NOT NULL OR hitting_power IS NOT NULL OR hitting_mechanics IS NOT NULL)';
+        }
+        if($station == "baserunning") {
+            $station_where = ' AND (hitting_baserunning IS NOT NULL)';
         }
 
         if(!$station_where) {

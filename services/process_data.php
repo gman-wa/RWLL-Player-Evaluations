@@ -36,11 +36,17 @@
         if($request['action'] == "hitting") {
             $success = $rdb->saveHitting($request);
         }
+        if($request['action'] == "hitting_no_baserunning") {
+            $success = $rdb->saveHittingNoBaserunning($request);
+        }
         if($request['action'] == "fielding") {
             $success = $rdb->saveFielding($request);
         }
         if($request['action'] == "pitching") {
             $success = $rdb->savePitching($request);
+        }
+        if($request['action'] == "baserunning") {
+            $success = $rdb->saveBaserunning($request);
         }
 
     }

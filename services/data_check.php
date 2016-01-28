@@ -15,7 +15,7 @@
 $player_id = isset($_GET['pid']) && $_GET['pid'] != "" ? (int) filter_var($_GET['pid'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
 $station = isset($_GET['s']) && $_GET['s'] != "" ? (string) filter_var($_GET['s'], FILTER_SANITIZE_STRING) : FALSE;
 
-$stations = array("hitting","fielding","pitching");
+$stations = array("hitting","fielding","pitching","baserunning","hitting_no_baserunning");
 
 if(!$player_id || !$station || !in_array($station,$stations)) {
     header($_SERVER['SERVER_PROTOCOL']. " 400 Bad Request");

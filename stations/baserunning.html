@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=no" >
-    <title>Hitting - RWLL Player Evaluations</title>
+    <title>Baserunning - RWLL Player Evaluations</title>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link type="text/css" rel="stylesheet" href="/assets/css/style-2016011905-min.css" media="screen" />
     <?php include(getenv('DOCUMENT_ROOT') . "/inc/apple-icons.php"); ?>
@@ -12,14 +12,14 @@
 <nav id="menu">
     <ul>
         <li class="nav_left"><a href="/index.html">Main</a></li>
-        <li class="nav_middle">Hitting</li>
+        <li class="nav_middle">Baserunning</li>
         <li class="nav_right"><a href="http://redwestll.org"><img src="http://cdn.cybernode.com/i/rwll/RWLL-Logo-min.png"></a></li>
     </ul>
 </nav>
 
 <div id="main_container">
     <form action="/services/process.php" method="get" onsubmit="return Validatorinator();" >
-        <input type="hidden" name="action" value="hitting_no_baserunning" />
+        <input type="hidden" name="action" value="baserunning" />
 
         <fieldset>
 
@@ -38,18 +38,8 @@
             <div id="scoring_container">
 
                 <div class="player_criteria">
-                    <label for="hitting_contact">Contact</label><output for="hitting_contact" class="criteria_value" id="hitting_contact_output">5</output>
-                    <input type="range" id="hitting_contact" name="hitting_contact" min="0" max="7" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
-                </div>
-
-                <div class="player_criteria">
-                    <label for="hitting_power">Power</label><output for="hitting_power" class="criteria_value" id="hitting_power_output">5</output>
-                    <input type="range" id="hitting_power" name="hitting_power" min="1" max="9" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
-                </div>
-
-                <div class="player_criteria">
-                    <label for="hitting_mechanics">Mechanics</label><output for="hitting_mechanics" class="criteria_value" id="hitting_mechanics_output">5</output>
-                    <input type="range" id="hitting_mechanics" name="hitting_mechanics" min="1" max="9" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
+                    <label for="hitting_baserunning">First to Third</label><br/>
+                    <input type="number" id="hitting_baserunning" name="hitting_baserunning" step="0.1">
                 </div>
 
             </div>
@@ -115,10 +105,9 @@
         if(playerID == '' || (playerIDInt < 100 || playerIDInt > 3000)) {
             playerID_error = true;
         }
-        // disabled for softball registration
-   //     if(baserunning == '') {
-   //         baserunning_error = true;
-   //     }
+        if(baserunning == '') {
+            baserunning_error = true;
+        }
         if(playerID_error == true && baserunning_error == true) {
         //    console.log('both');
             document.getElementById("player_eval_id_error").style.display = "block";
@@ -160,7 +149,7 @@
         var lpd =function() {
             var pi = new Image();
             pi.onerror=showDataRecorded;
-            pi.src='/services/data_check.php?s=hitting_no_baserunning&pid='+player_id;
+            pi.src='/services/data_check.php?s=baserunning&pid='+player_id;
             var h = document.getElementById('player_data_container');h.innerHTML = ''; h.appendChild(pi);
         };
 
