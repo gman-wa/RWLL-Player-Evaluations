@@ -72,7 +72,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
 
     <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/pitching.html'">Pitching</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/baserunning.html'">Softball Baserunning</button></div>
+    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/baserunning.html'">Baserunning</button></div>
 
     <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/registration.html'">Registration</button></div>
 

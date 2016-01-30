@@ -259,6 +259,27 @@ class eval_db {
 
     }
 
+    function getRowsOfData() {
+
+        $db = new Database();
+        $db->query('SELECT count(distinct player_eval_id) as data_count FROM evaluations');
+
+        $db->execute();
+
+        $num_rows = $db->rowCount();
+
+        $row = $db->single();
+
+        if($num_rows > 0) {
+            return $row['data_count'];
+        } else {
+            return FALSE;
+        }
+
+
+    }
+
+    /* not used */
     function getPlayerStats() {
         /**
          * Select a single row
@@ -276,6 +297,7 @@ class eval_db {
 
     }
 
+    /* not used */
     function getPlayerIDS() {
         /**
          * Select multiple rows
