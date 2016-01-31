@@ -7,8 +7,23 @@
  */
 
 /*
+ * when complete
+ * <link rel="manifest" href="/manifest.json">
+ * http://www.onlywebpro.com/2015/07/19/optimizing-full-screen-mobile-web-app-for-ios/
+ *
+ *
+ * <link rel="apple-touch-startup-image" href="iphone-startup.png">
+<link rel="apple-touch-startup-image" href="ipad-landscape-startup.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)" />
+<link rel="apple-touch-startup-image" href="ipad-portrait-startup.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)" />
+On iPhone and iPod touch, the image must be 320 x 480 pixels and in portrait orientation.
+
+On iPad landscape orientation, the image must be 748 x 1024, while in portrait orientation the image must be 768 x 1004.
+
+don't use landscape
+
  */
 ?>
+<meta name="apple-mobile-web-app-title" content="RWLL Evals" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <link rel="apple-touch-icon" href="http://cdn.cybernode.com/i/rwll/apple-touch-icon.png"/>
