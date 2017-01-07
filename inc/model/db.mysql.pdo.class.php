@@ -22,12 +22,13 @@ class Database
 
     public function __construct()
     {
+
         // Set DSN
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
         // Set options
         $options = array(
             PDO::ATTR_PERSISTENT    => true,
-            PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE       => PDO::ERRMODE_WARNING
         );
         //Create a new PDO instance
         try {
@@ -37,11 +38,17 @@ class Database
         catch(PDOException $e) {
             $this->error = $e->getMessage();
         }
+
     }
 
     public function query($query)
     {
-        $this->stmt = $this->dbh->prepare($query);
+
+        try {
+            $this->stmt = $this->dbh->prepare($query);
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+        }
     }
 
     public function bind($param, $value, $type = null)
@@ -66,7 +73,12 @@ class Database
 
     public function execute()
     {
-        return $this->stmt->execute();
+        try {
+            return $this->stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Execute failed: ' . $e->getMessage();
+        }
+        echo "Backtrace: " . debug_print_backtrace();
     }
 
     public function resultset()

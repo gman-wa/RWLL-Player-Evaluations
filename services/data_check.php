@@ -26,13 +26,13 @@ if(!$player_id || !$station || !in_array($station,$stations)) {
 $have_data = FALSE;
 
 if($player_id && $station) {
-    include(getenv('DOCUMENT_ROOT') . "/inc/model/rwll.mysql.class.php");
+    include(getenv('DOCUMENT_ROOT') . "/inc/model/rnll.mysql.class.php");
     $rdb = new eval_db();
     $have_data = $rdb->checkPlayerStation($player_id,$station);
 }
 
 if(!$have_data) { // all good
-    header("Location: https://s3.amazonaws.com/cdn.cybernode.com/i/rwll/1-pixel-clear.png");
+    header("Location: https://s3.amazonaws.com/cdn.cybernode.com/i/rnll/1-pixel-clear.png");
 } else {
     header($_SERVER['SERVER_PROTOCOL']. " 409 Conflict");
     exit;

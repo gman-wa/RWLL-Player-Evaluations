@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Baserunning - RWLL Player Evaluations</title>
+    <title>Baserunning - RNLL Player Evaluations</title>
     <?php include(getenv('DOCUMENT_ROOT') . "/inc/global-meta.php"); ?>
 </head>
 <body>
@@ -9,7 +9,7 @@
     <ul>
         <li class="nav_left"><a href="/index.html">Main</a></li>
         <li class="nav_middle">Baserunning</li>
-        <li class="nav_right"><a href="http://redwestll.org"><img src="http://cdn.cybernode.com/i/rwll/RWLL-Logo-min.png"></a></li>
+        <li class="nav_right"><a href="http://rnll.org"><img src="/assets/img/rednorth-logo-square-min.png"></a></li>
     </ul>
 </nav>
 
@@ -53,7 +53,7 @@
                 <input type="hidden" id="origin_lat" name="origin_lat" value="" />
                 <input type="hidden" id="origin_lon" name="origin_lon" value="" />
                 <label for="eval_submit" style="display:none">Save Player</label>
-                <input type="submit" id="eval_submit" class="green_button" value="Save">
+                <input type="submit" id="eval_submit" class="blue_button" value="Save">
             </div>
 
         </fieldset>
@@ -136,12 +136,12 @@
         var lpi =function() {
             var pi = new Image();
             pi.onerror=showError;
-            pi.src='https://s3.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/player-image-'+player_id+'.jpg';
+            pi.src='https://s3.amazonaws.com/cdn.cybernode.com/i/rnll/player-images/baseball/player-image-'+player_id+'.jpg';
             var h = document.getElementById('player_photo_container');h.innerHTML = ''; h.appendChild(pi);
         };
 
         lpi();
-
+        /*
         var lpd =function() {
             var pi = new Image();
             pi.onerror=showDataRecorded;
@@ -150,7 +150,7 @@
         };
 
         lpd();
-
+        */
     }
 
     function showError() {

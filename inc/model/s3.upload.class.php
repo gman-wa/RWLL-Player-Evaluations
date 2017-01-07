@@ -46,7 +46,7 @@ class s3Upload {
         // var_dump($this->client);
 
         $bucket = 'cdn.cybernode.com';
-        $keyname = 'i/rwll/player-images/baseball/'.$file['file_name']; // FILENAME
+        $keyname = 'i/rnll/player-images/baseball/'.$file['file_name']; // FILENAME
         // $filepath should be absolute path to a file on disk
         $filepath = $file['local_path'];
 

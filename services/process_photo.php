@@ -208,7 +208,7 @@
 
     if($s3_resize_image) {
         $success = TRUE;
-        include(getenv('DOCUMENT_ROOT') . "/inc/model/rwll.mysql.class.php");
+        include(getenv('DOCUMENT_ROOT') . "/inc/model/rnll.mysql.class.php");
         $rdb = new eval_db();
         $request['player_img'] = $final_file_name;
         $success = $rdb->saveRegistration($request);

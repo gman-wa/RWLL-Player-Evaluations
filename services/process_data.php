@@ -5,7 +5,9 @@
  * Date: 11/6/15
  * Time: 11:37 AM
  */
-    include(getenv('DOCUMENT_ROOT') . "/inc/model/rwll.mysql.class.php");
+    include(getenv('DOCUMENT_ROOT') . "/inc/model/rnll.mysql.class.php");
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', true);
 
     // common
     $request['player_eval_id'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (int) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
@@ -35,9 +37,6 @@
 
         if($request['action'] == "hitting") {
             $success = $rdb->saveHitting($request);
-        }
-        if($request['action'] == "hitting_no_baserunning") {
-            $success = $rdb->saveHittingNoBaserunning($request);
         }
         if($request['action'] == "fielding") {
             $success = $rdb->saveFielding($request);

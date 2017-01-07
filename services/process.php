@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=no" >
-    <title>Data Processing - RWLL Player Evaluations</title>
+    <title>Data Processing - RNLL Player Evaluations</title>
     <link type="text/css" rel="stylesheet" href="../assets/css/style.css" media="screen"/>
 </head>
 <body>
@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
     <ul>
         <li class="nav_left"><a href="/index.html">Main</a></li>
         <li class="nav_middle">Saving</li>
-        <li class="nav_right"><a href="http://redwestll.org"><img src="../assets/img/RWLL-Logo-min.png"></a></li>
+        <li class="nav_right"><a href="http://rnll.org"><img src="/assets/img/rednorth-logo-square-min.png"></a></li>
     </ul>
 </nav>
 
@@ -66,15 +66,15 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
 
     <h2>Back to Station</h2>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/fielding.html'">Fielding</button></div>
+    <div class="nav_button_container"><button class="blue_nav_button" onclick="location.href='/stations/fielding.html'">Fielding</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/hitting.html'">Hitting</button></div>
+    <div class="nav_button_container"><button class="blue_nav_button" onclick="location.href='/stations/hitting.html'">Hitting</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/pitching.html'">Pitching</button></div>
+    <div class="nav_button_container"><button class="blue_nav_button" onclick="location.href='/stations/pitching.html'">Pitching</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/baserunning.html'">Baserunning</button></div>
+    <div class="nav_button_container"><button class="blue_nav_button" onclick="location.href='/stations/baserunning.html'">Baserunning</button></div>
 
-    <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/registration.html'">Registration</button></div>
+    <div class="nav_button_container"><button class="blue_nav_button" onclick="location.href='/stations/registration.html'">Registration</button></div>
 
 </div>
 <script typoe="text/javascript">

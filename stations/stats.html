@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Stats - RWLL Player Evaluations</title>
+    <title>Stats - RNLL Player Evaluations</title>
     <?php include(getenv('DOCUMENT_ROOT') . "/inc/global-meta.php"); ?>
 </head>
 <body>
@@ -9,14 +9,14 @@
     <ul>
         <li class="nav_left"><a href="/index.html">Main</a></li>
         <li class="nav_middle">Stats</li>
-        <li class="nav_right"><a href="http://redwestll.org"><img src="http://cdn.cybernode.com/i/rwll/RWLL-Logo-min.png"></a></li>
+        <li class="nav_right"><a href="http://rnll.org"><img src="/assets/img/rednorth-logo-square-min.png"></a></li>
     </ul>
 </nav>
 
 <div id="main_container">
 
     <?php
-        include(getenv('DOCUMENT_ROOT') . "/inc/model/rwll.mysql.class.php");
+        include(getenv('DOCUMENT_ROOT') . "/inc/model/rnll.mysql.class.php");
         $rdb = new eval_db();
         $data_count = $rdb->getRowsOfData();
     ?>
