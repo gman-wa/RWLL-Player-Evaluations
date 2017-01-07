@@ -32,6 +32,11 @@
     $request['pitching_accuracy'] = isset($_GET['pitching_accuracy']) && $_GET['pitching_accuracy'] != "" ? (int) filter_var($_GET['pitching_accuracy'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['pitching_mechanics'] = isset($_GET['pitching_mechanics']) && $_GET['pitching_mechanics'] != "" ? (int) filter_var($_GET['pitching_mechanics'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
 
+    if($request['coach_id']) {
+        define("COOKIE_DOMAIN",".rnll.org");
+        setcookie('rnll_coach_id', $request['coach_id'], time()+60*60*24, "/",COOKIE_DOMAIN);
+    }
+
     $success = FALSE;
 
     if($request['action']) {

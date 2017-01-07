@@ -24,7 +24,7 @@
                 <div id="player_id_container">
                     <label for="player_eval_id" name="" id="" style="display:none;">Player Evaluation ID</label>
                     <input type="number" pattern="[0-9]*" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="getImage();">
-                    <input type="text" autocapitalize="characters" id="coach_id" name="coach_id" placeholder="Coach ID" >
+                    <input type="text" autocapitalize="characters" id="coach_id" name="coach_id" placeholder="Coach ID" value="<?php echo isset($_COOKIE['rnll_coach_id']) && $_COOKIE['rnll_coach_id'] != '' ? $_COOKIE['rnll_coach_id'] : NULL; ?>">
                 </div>
 
                 <div id="player_photo_container"><p class="error_message">Enter Player ID</p></div>
