@@ -15,9 +15,9 @@ class eval_db {
 
     function saveRegistration($data) {
         $db = new Database();
-        $db->query('INSERT INTO players (player_eval_id,player_first_name,player_last_name,player_img,eval_date,origin_lat,origin_lon)
+        $db->query('INSERT INTO players (player_eval_id,player_sportsengine_id,player_first_name,player_last_name,player_img,eval_date,origin_lat,origin_lon)
                     VALUES
-                    (:player_id, :player_first_name, :player_last_name, :player_img, :eval_date, :origin_lat, :origin_lon)
+                    (:player_id, :player_sportsengine_id, :player_first_name, :player_last_name, :player_img, :eval_date, :origin_lat, :origin_lon)
                     ON DUPLICATE KEY UPDATE
                     player_first_name = :player_first_name,
                     player_last_name = :player_last_name,
@@ -30,6 +30,7 @@ class eval_db {
         $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
 
         $db->bind(':player_id', $data['player_eval_id']);
+        $db->bind(':player_sportsengine_id', $data['player_sportsengine_id']);
         $db->bind(':player_first_name', $data['player_first_name']);
         $db->bind(':player_last_name', $data['player_last_name']);
         $db->bind(':player_img', $data['player_img']);
@@ -50,18 +51,19 @@ class eval_db {
     function saveFielding($data) {
 
         $db = new Database();
-        $db->query('INSERT INTO evaluations (player_eval_id,station,rating,eval_date,origin_lat,origin_lon)
+        $db->query('INSERT INTO evaluations (player_eval_id,coach_id,station,rating,eval_date,origin_lat,origin_lon)
                     VALUES
-                    (:player_id, :station_fielding_ground_ball, :fielding_ground_ball, :eval_date, :origin_lat, :origin_lon),
-                    (:player_id, :station_fielding_fly_ball, :fielding_fly_ball, :eval_date, :origin_lat, :origin_lon),
-                    (:player_id, :station_fielding_throwing, :fielding_throwing, :eval_date, :origin_lat, :origin_lon),
-                    (:player_id, :station_fielding_iq, :fielding_iq, :eval_date, :origin_lat, :origin_lon)
+                    (:player_id, :coach_id, :station_fielding_ground_ball, :fielding_ground_ball, :eval_date, :origin_lat, :origin_lon),
+                    (:player_id, :coach_id, :station_fielding_fly_ball, :fielding_fly_ball, :eval_date, :origin_lat, :origin_lon),
+                    (:player_id, :coach_id, :station_fielding_throwing, :fielding_throwing, :eval_date, :origin_lat, :origin_lon),
+                    (:player_id, :coach_id, :station_fielding_iq, :fielding_iq, :eval_date, :origin_lat, :origin_lon)
                     ');
 
         $data['origin_lat'] = $data['origin_lat'] ? $data['origin_lat'] : NULL;
         $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
 
         $db->bind(':player_id', $data['player_eval_id']);
+        $db->bind(':coach_id', $data['coach_id']);
 
         $db->bind(':station_fielding_ground_ball', 'fielding_ground_ball');
         $db->bind(':station_fielding_fly_ball', 'fielding_fly_ball');
@@ -89,17 +91,18 @@ class eval_db {
     function saveHitting($data) {
 
         $db = new Database();
-        $db->query('INSERT INTO evaluations (player_eval_id,station,rating,eval_date,origin_lat,origin_lon)
+        $db->query('INSERT INTO evaluations (player_eval_id,coach_id,station,rating,eval_date,origin_lat,origin_lon)
                     VALUES 
-                    (:player_id, :station_hitting_contact, :hitting_contact, :eval_date, :origin_lat, :origin_lon),
-                    (:player_id, :station_hitting_power, :hitting_power, :eval_date, :origin_lat, :origin_lon),
-                    (:player_id, :station_hitting_mechanics, :hitting_mechanics, :eval_date, :origin_lat, :origin_lon)
+                    (:player_id, :coach_id, :station_hitting_contact, :hitting_contact, :eval_date, :origin_lat, :origin_lon),
+                    (:player_id, :coach_id, :station_hitting_power, :hitting_power, :eval_date, :origin_lat, :origin_lon),
+                    (:player_id, :coach_id, :station_hitting_mechanics, :hitting_mechanics, :eval_date, :origin_lat, :origin_lon)
                     ');
 
         $data['origin_lat'] = $data['origin_lat'] ? $data['origin_lat'] : NULL;
         $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
 
         $db->bind(':player_id', $data['player_eval_id']);
+        $db->bind(':coach_id', $data['coach_id']);
 
         $db->bind(':station_hitting_contact', 'hitting_contact');
         $db->bind(':station_hitting_power', 'hitting_power');
@@ -125,17 +128,18 @@ class eval_db {
     function savePitching($data) {
 
         $db = new Database();
-        $db->query('INSERT INTO evaluations (player_eval_id,station,rating,eval_date,origin_lat,origin_lon)
+        $db->query('INSERT INTO evaluations (player_eval_id,coach_id,station,rating,eval_date,origin_lat,origin_lon)
                     VALUES 
-                    (:player_id, :station_pitching_velocity, :pitching_velocity, :eval_date, :origin_lat, :origin_lon),
-                    (:player_id, :station_pitching_accuracy, :pitching_accuracy, :eval_date, :origin_lat, :origin_lon),
-                    (:player_id, :station_pitching_mechanics, :pitching_mechanics, :eval_date, :origin_lat, :origin_lon)
+                    (:player_id, :coach_id, :station_pitching_velocity, :pitching_velocity, :eval_date, :origin_lat, :origin_lon),
+                    (:player_id, :coach_id, :station_pitching_accuracy, :pitching_accuracy, :eval_date, :origin_lat, :origin_lon),
+                    (:player_id, :coach_id, :station_pitching_mechanics, :pitching_mechanics, :eval_date, :origin_lat, :origin_lon)
                     ');
 
         $data['origin_lat'] = $data['origin_lat'] ? $data['origin_lat'] : NULL;
         $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
 
         $db->bind(':player_id', $data['player_eval_id']);
+        $db->bind(':coach_id', $data['coach_id']);
 
         $db->bind(':station_pitching_velocity', 'pitching_velocity');
         $db->bind(':station_pitching_accuracy', 'pitching_accuracy');
@@ -161,15 +165,16 @@ class eval_db {
     function saveBaserunning($data) {
 
         $db = new Database();
-        $db->query('INSERT INTO evaluations (player_eval_id,station,rating_decimal,eval_date,origin_lat,origin_lon)
-                    VALUES (:player_id, :station_hitting_baserunning, :hitting_baserunning , :eval_date, :origin_lat, :origin_lon)');
+        $db->query('INSERT INTO evaluations (player_eval_id,coach_id,station,rating_decimal,eval_date,origin_lat,origin_lon)
+                    VALUES (:player_id, :coach_id, :station_baserunning, :baserunning , :eval_date, :origin_lat, :origin_lon)');
 
         $data['origin_lat'] = $data['origin_lat'] ? $data['origin_lat'] : NULL;
         $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
 
         $db->bind(':player_id', $data['player_eval_id']);
-        $db->bind(':station_hitting_baserunning', 'hitting_baserunning');
-        $db->bind(':hitting_baserunning', $data['hitting_baserunning']);
+        $db->bind(':coach_id', $data['coach_id']);
+        $db->bind(':station_baserunning', 'baserunning');
+        $db->bind(':baserunning', $data['baserunning']);
         $db->bind(':eval_date', date("Y-m-d"));
         $db->bind(':origin_lat', $data['origin_lat']);
         $db->bind(':origin_lon', $data['origin_lon']);

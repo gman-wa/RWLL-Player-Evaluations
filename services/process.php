@@ -10,7 +10,7 @@
 $s3_resize_image = FALSE;
 if($_SERVER['REQUEST_METHOD'] == "POST") {
     include("process_photo.php");
-    $request['user'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (int) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
+    $request['user'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (float) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
 //    include("process_data.php");
 }
 
@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 if($_SERVER['REQUEST_METHOD'] == "GET") {
 //look for player_eval_id
     $request = array();
-    $request['user'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (int) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
+    $request['user'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (float) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
     if(isset($request['user'])) {
         include("process_data.php");
     }

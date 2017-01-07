@@ -228,7 +228,7 @@ input[type=number], input[type=tel] {
     margin-top:10px;
 }
 
-#player_id_reg_container {
+#player_id_reg_container, #se_id_reg_container {
     width:90%;
 }
 
@@ -246,6 +246,15 @@ fieldset {
     width: 49%;
     height: 150px;
     text-align: left;
+}
+
+#player_id_container input[type=text] {
+    padding:5px;
+    line-height:1.0;
+    width:80%;
+    font-size:1.0em;
+    border:1px solid grey;
+    margin-top:10px;
 }
 
 .criteria_value {

@@ -22,8 +22,9 @@
             <div id="player_container">
 
                 <div id="player_id_container">
-                    <label for="player_eval_id" name="" id="">Player Evaluation ID</label>
+                    <label for="player_eval_id" name="" id="" style="display:none;">Player Evaluation ID</label>
                     <input type="number" pattern="[0-9]*" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="getImage();">
+                    <input type="text" autocapitalize="characters" id="coach_id" name="coach_id" placeholder="Coach ID" >
                 </div>
 
                 <div id="player_photo_container"><p class="error_message">Enter Player ID</p></div>
@@ -108,7 +109,7 @@
         var playerID_error = false;
         var baserunning_error = false;
     //    console.log('id: '+playerID);
-        if(playerID == '' || (playerIDInt < 100 || playerIDInt > 3000)) {
+        if(playerID == '') {
             playerID_error = true;
         }
         // disabled for softball registration

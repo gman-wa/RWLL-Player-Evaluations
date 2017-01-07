@@ -22,8 +22,9 @@
             <div id="player_container">
 
                 <div id="player_id_container">
-                    <label for="player_eval_id" name="" id="">Player Evaluation ID</label>
+                    <label for="player_eval_id" name="" id="" style="display:none;">Player Evaluation ID</label>
                     <input type="number" pattern="[0-9]*" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="getImage();">
+                    <input type="text" autocapitalize="characters" id="coach_id" name="coach_id" placeholder="Coach ID" >
                 </div>
 
                 <div id="player_photo_container"><p class="error_message">Enter Player ID</p></div>
@@ -34,8 +35,8 @@
             <div id="scoring_container">
 
                 <div class="player_criteria">
-                    <label for="hitting_baserunning">First to Third</label><br/>
-                    <input type="number" id="hitting_baserunning" name="hitting_baserunning" step="0.1">
+                    <label for="baserunning">First to Third</label><br/>
+                    <input type="number" id="baserunning" name="baserunning" step="0.1">
                 </div>
 
             </div>
@@ -44,7 +45,7 @@
                 <div class="error_message" id="player_eval_id_error" style="display:none;">
                     <p>Player ID Missing or Not Valid</p>
                 </div>
-                <div class="error_message" id="hitting_baserunning_error" style="display:none;">
+                <div class="error_message" id="baserunning_error" style="display:none;">
                     <p>Baserunning Time Missing</p>
                 </div>
             </div>
@@ -91,14 +92,14 @@
 
     function Validatorinator() {
         document.getElementById("player_eval_id_error").style.display = "none";
-        document.getElementById("hitting_baserunning_error").style.display = "none";
+        document.getElementById("baserunning_error").style.display = "none";
         var playerID = document.getElementById("player_eval_id").value;
         var playerIDInt = parseInt(playerID);
-        var baserunning = document.getElementById("hitting_baserunning").value;
+        var baserunning = document.getElementById("baserunning").value;
         var playerID_error = false;
         var baserunning_error = false;
     //    console.log('id: '+playerID);
-        if(playerID == '' || (playerIDInt < 100 || playerIDInt > 3000)) {
+        if(playerID == '') {
             playerID_error = true;
         }
         if(baserunning == '') {
@@ -107,7 +108,7 @@
         if(playerID_error == true && baserunning_error == true) {
         //    console.log('both');
             document.getElementById("player_eval_id_error").style.display = "block";
-            document.getElementById("hitting_baserunning_error").style.display = "block";
+            document.getElementById("baserunning_error").style.display = "block";
             return false;
         } else if(playerID_error == true && baserunning_error == false) {
          //   console.log('just player');
@@ -115,7 +116,7 @@
             return false;
         } else if(playerID_error == false && baserunning_error == true) {
         //    console.log('just baserunning');
-            document.getElementById("hitting_baserunning_error").style.display = "block";
+            document.getElementById("baserunning_error").style.display = "block";
             return false;
         } else {
             return true;

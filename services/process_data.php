@@ -6,11 +6,12 @@
  * Time: 11:37 AM
  */
     include(getenv('DOCUMENT_ROOT') . "/inc/model/rnll.mysql.class.php");
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', true);
+//    error_reporting(E_ALL | E_STRICT);
+//    ini_set('display_errors', true);
 
     // common
-    $request['player_eval_id'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (int) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
+    $request['player_eval_id'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (float) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
+    $request['coach_id'] = isset($_GET['coach_id']) && $_GET['coach_id'] != "" ? (string) strtoupper(filter_var($_GET['coach_id'], FILTER_SANITIZE_STRING)) : FALSE;
     $request['origin_lat'] = isset($_GET['origin_lat']) && $_GET['origin_lat'] != "" ? (float) filter_var($_GET['origin_lat'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
     $request['origin_lon'] = isset($_GET['origin_lon']) && $_GET['origin_lon'] != "" ? (float) filter_var($_GET['origin_lon'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
 
@@ -24,7 +25,8 @@ ini_set('display_errors', true);
     $request['hitting_contact'] = isset($_GET['hitting_contact']) && $_GET['hitting_contact'] != "" ? (int) filter_var($_GET['hitting_contact'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['hitting_power'] = isset($_GET['hitting_power']) && $_GET['hitting_power'] != "" ? (int) filter_var($_GET['hitting_power'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['hitting_mechanics'] = isset($_GET['hitting_mechanics']) && $_GET['hitting_mechanics'] != "" ? (int) filter_var($_GET['hitting_mechanics'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
-    $request['hitting_baserunning'] = isset($_GET['hitting_baserunning']) && $_GET['hitting_baserunning'] != "" ? (float) filter_var($_GET['hitting_baserunning'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
+
+    $request['baserunning'] = isset($_GET['baserunning']) && $_GET['baserunning'] != "" ? (float) filter_var($_GET['baserunning'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
 
     $request['pitching_velocity'] = isset($_GET['pitching_velocity']) && $_GET['pitching_velocity'] != "" ? (int) filter_var($_GET['pitching_velocity'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['pitching_accuracy'] = isset($_GET['pitching_accuracy']) && $_GET['pitching_accuracy'] != "" ? (int) filter_var($_GET['pitching_accuracy'], FILTER_SANITIZE_NUMBER_INT) : FALSE;

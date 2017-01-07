@@ -22,8 +22,9 @@
             <div id="player_container">
 
                 <div id="player_id_container">
-                    <label for="player_eval_id" name="" id="">Player Evaluation ID</label>
-                    <input type="number" pattern="[0-9]*" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="getImage();">
+                    <label for="player_eval_id" name="" id="" style="display:none;">Player Evaluation ID</label>
+                    <input type="number" step="0.1" pattern="[0-9]*" id="player_eval_id" name="player_eval_id" placeholder="Player ID" onblur="getImage();">
+                    <input type="text" autocapitalize="characters" id="coach_id" name="coach_id" placeholder="Coach ID" >
                 </div>
 
                 <div id="player_photo_container"><p class="error_message">Enter Player ID</p></div>
@@ -106,7 +107,7 @@ function Validatorinator() {
     document.getElementById("player_eval_id_error").style.display = "none";
     var playerID = document.getElementById("player_eval_id").value;
     var playerIDInt = parseInt(playerID);
-    if(playerID == '' || (playerIDInt < 100 || playerIDInt > 3000)) {
+    if(playerID == '') {
         document.getElementById("player_eval_id_error").style.display = "block";
     //    document.getElementById("player_eval_id").focus();
         return false;
