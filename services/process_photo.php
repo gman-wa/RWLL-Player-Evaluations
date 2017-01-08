@@ -25,7 +25,7 @@
     $success = FALSE;
 
     $request = array();
-    $request['player_eval_id'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (float) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
+    $request['player_eval_id'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (int) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['player_sportsengine_id'] = isset($_POST['player_sportsengine_id']) && $_POST['player_sportsengine_id'] != "" ? (int) filter_var($_POST['player_sportsengine_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['player_first_name'] = isset($_POST['player_first_name']) && $_POST['player_first_name'] != "" ? (string) filter_var($_POST['player_first_name'], FILTER_SANITIZE_STRING) : FALSE;
     $request['player_last_name'] = isset($_POST['player_last_name']) && $_POST['player_last_name'] != "" ? (string) filter_var($_POST['player_last_name'], FILTER_SANITIZE_STRING) : FALSE;
@@ -53,6 +53,8 @@
     $image_rotated = FALSE;
 
     if (!move_uploaded_file($tmp_file_name, EVAL_PHOTO_FILEPATH . $full_size_file_name)) {
+        echo "<p>Photo upload unsucessful</p>";
+        echo "<p>todo - improve this error message</p>";
         logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Check uploaded file validity.  Error: ".$_FILES['registration_photo']['error']);
         exit;
     }
@@ -61,6 +63,8 @@
 
     if(!stristr($type,"image")) {
         //todo - throw an error
+        echo "<p>Photos required for successful registration</p>";
+        echo "<p>todo - improve this error message</p>";
         logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Not an image file. Exiting.");
         exit;
     }

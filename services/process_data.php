@@ -10,7 +10,7 @@
 //    ini_set('display_errors', true);
 
     // common
-    $request['player_eval_id'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (float) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
+    $request['player_eval_id'] = isset($_GET['player_eval_id']) && $_GET['player_eval_id'] != "" ? (int) filter_var($_GET['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['coach_id'] = isset($_GET['coach_id']) && $_GET['coach_id'] != "" ? (string) strtoupper(filter_var($_GET['coach_id'], FILTER_SANITIZE_STRING)) : FALSE;
     $request['origin_lat'] = isset($_GET['origin_lat']) && $_GET['origin_lat'] != "" ? (float) filter_var($_GET['origin_lat'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
     $request['origin_lon'] = isset($_GET['origin_lon']) && $_GET['origin_lon'] != "" ? (float) filter_var($_GET['origin_lon'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
