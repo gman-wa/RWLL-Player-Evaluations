@@ -228,7 +228,7 @@ input[type=number], input[type=tel] {
     margin-top:10px;
 }
 
-#player_id_reg_container {
+#player_id_reg_container, #player_id_reg_container {
     width:90%;
 }
 
