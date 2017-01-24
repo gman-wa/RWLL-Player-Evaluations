@@ -156,12 +156,13 @@ class eval_db {
     function savePitching($data) {
 
         $db = new Database();
-        $db->query('INSERT INTO evaluations (player_eval_id,pitching_velocity,pitching_accuracy,pitching_mechanics,eval_date,origin_lat,origin_lon)
-                    VALUES (:player_id, :pitching_velocity, :pitching_accuracy, :pitching_mechanics, :eval_date, :origin_lat, :origin_lon)
+        $db->query('INSERT INTO evaluations (player_eval_id,pitching_velocity,pitching_accuracy,pitching_mechanics,catching_disposed,eval_date,origin_lat,origin_lon)
+                    VALUES (:player_id, :pitching_velocity, :pitching_accuracy, :pitching_mechanics, :catching_disposed, :eval_date, :origin_lat, :origin_lon)
                     ON DUPLICATE KEY UPDATE
                     pitching_velocity = :pitching_velocity,
                     pitching_accuracy = :pitching_accuracy,
                     pitching_mechanics = :pitching_mechanics,
+                    catching_disposed = :catching_disposed,
                     eval_date = :eval_date,
                     origin_lat = :origin_lat,
                     origin_lon = :origin_lon');
@@ -173,6 +174,7 @@ class eval_db {
         $db->bind(':pitching_velocity', $data['pitching_velocity']);
         $db->bind(':pitching_accuracy', $data['pitching_accuracy']);
         $db->bind(':pitching_mechanics', $data['pitching_mechanics']);
+        $db->bind(':catching_disposed', $data['catching_disposed']);
         $db->bind(':eval_date', date("Y-m-d"));
         $db->bind(':origin_lat', $data['origin_lat']);
         $db->bind(':origin_lon', $data['origin_lon']);
@@ -239,16 +241,17 @@ class eval_db {
             return FALSE;
         }
 
+        $check_query = 'SELECT player_eval_id FROM evaluations WHERE player_eval_id = :player_id ';
+        $check_query .= $station_where;
+
         $db = new Database();
-        $db->query('SELECT player_eval_id FROM evaluations WHERE player_eval_id = :player_id '.$station_where);
+        $db->query($check_query);
 
         $db->bind(':player_id', $player_id);
 
         $db->execute();
 
         $num_rows = $db->rowCount();
-
-        $row = $db->single();
 
         if($num_rows > 0) {
             return TRUE;

@@ -48,6 +48,10 @@
                     <input type="range" id="pitching_mechanics" name="pitching_mechanics" min="1" max="9" value="5" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
                 </div>
 
+                <div class="player_criteria">
+                    <label for="catching_disposed">Willing to Catch</label><output for="catching_disposed" class="criteria_value" id="catching_disposed_output">No</output>
+                    <input type="range" id="catching_disposed" name="catching_disposed" min="0" max="1" value="0" step="1" oninput="outputUpdate(value,this);" onchange="outputUpdate(value,this);">
+                </div>
             </div>
 
             <div id="error_messages">
@@ -72,7 +76,15 @@
 </div>
 <script type="text/javascript">
     function outputUpdate(val,elm) {
-        document.querySelector('#'+elm.id+'_output').innerHTML = val;
+        if(elm.id == "catching_disposed") {
+            if(val == 0) {
+                document.querySelector('#'+elm.id+'_output').innerHTML = 'No';
+            } else {
+                document.querySelector('#'+elm.id+'_output').innerHTML = 'Yes';
+            }
+        } else {
+            document.querySelector('#'+elm.id+'_output').innerHTML = val;
+        }
     }
 
     /* ---- GEO  */

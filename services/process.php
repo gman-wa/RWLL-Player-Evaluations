@@ -44,8 +44,12 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
 <div id="main_container">
 
     <?php
+        $station_name = $request['action'];
+        if($request['action'] == "hitting_no_baserunning") {
+            $station_name = "hitting";
+        }
         if($success) {
-            echo "<h1>Data Saved for player ".$request['user']."</h1>";
+            echo "<h1>".ucfirst($station_name)." Data Saved for player ".$request['user']."</h1>";
 
         //    echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
         //    print_r($_REQUEST);
@@ -55,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
         //        echo "<div><img src='" . $s3_resize_image . "'/></div>";
         //    }
         } else {
-            echo "<h1>Error: Data Not Saved or Duplicate - Player ".$request['user']."</h1>";
+            echo "<h1>Error: ".ucfirst($station_name)." Data Not Saved or Duplicate - Player ".$request['user']."</h1>";
 
         //    echo "<div><button class='green_nav_button' id='data_sent' onclick='showData();'>Click to show data sent</button></div><pre id='data_sent_container' style='display:none'>:";
         //    print_r($_REQUEST);
@@ -64,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
         }
     ?>
 
-    <h2>Back to Station</h2>
+    <h2>Choose Station</h2>
 
     <div class="nav_button_container"><button class="green_nav_button" onclick="location.href='/stations/fielding.html'">Fielding</button></div>
 

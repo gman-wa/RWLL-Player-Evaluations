@@ -27,6 +27,8 @@
     $request['pitching_velocity'] = isset($_GET['pitching_velocity']) && $_GET['pitching_velocity'] != "" ? (int) filter_var($_GET['pitching_velocity'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['pitching_accuracy'] = isset($_GET['pitching_accuracy']) && $_GET['pitching_accuracy'] != "" ? (int) filter_var($_GET['pitching_accuracy'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['pitching_mechanics'] = isset($_GET['pitching_mechanics']) && $_GET['pitching_mechanics'] != "" ? (int) filter_var($_GET['pitching_mechanics'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
+    $request['catching_disposed'] = isset($_GET['catching_disposed']) && $_GET['catching_disposed'] != "" ? (int) filter_var($_GET['catching_disposed'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
+
 
     $success = FALSE;
 
