@@ -15,10 +15,12 @@ class eval_db {
 
     function saveRegistration($data) {
         $db = new Database();
-        $db->query('INSERT INTO evaluations (player_eval_id,player_first_name,player_last_name,player_img,eval_date,origin_lat,origin_lon)
+
+        $db->query('INSERT INTO evaluations (player_eval_id,player_sportsengine_id,player_first_name,player_last_name,player_img,eval_date,origin_lat,origin_lon)
                     VALUES
-                    (:player_id, :player_first_name, :player_last_name, :player_img, :eval_date, :origin_lat, :origin_lon)
+                    (:player_id, :player_sportsengine_id, :player_first_name, :player_last_name, :player_img, :eval_date, :origin_lat, :origin_lon)
                     ON DUPLICATE KEY UPDATE
+                    player_sportsengine_id = :player_sportsengine_id,
                     player_first_name = :player_first_name,
                     player_last_name = :player_last_name,
                     player_img = :player_img,
@@ -30,6 +32,7 @@ class eval_db {
         $data['origin_lon'] = $data['origin_lon'] ? $data['origin_lon'] : NULL;
 
         $db->bind(':player_id', $data['player_eval_id']);
+        $db->bind(':player_sportsengine_id', $data['player_sportsengine_id']);
         $db->bind(':player_first_name', $data['player_first_name']);
         $db->bind(':player_last_name', $data['player_last_name']);
         $db->bind(':player_img', $data['player_img']);
