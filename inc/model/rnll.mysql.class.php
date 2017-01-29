@@ -19,7 +19,7 @@ class eval_db {
                     VALUES
                     (:player_id, :player_sportsengine_id, :player_first_name, :player_last_name, :player_img, :eval_date, :origin_lat, :origin_lon)
                     ON DUPLICATE KEY UPDATE
-                    player_sportengine_id = :player_sportsengine_id,
+                    player_sportsengine_id = :player_sportsengine_id,
                     player_first_name = :player_first_name,
                     player_last_name = :player_last_name,
                     player_img = :player_img,
