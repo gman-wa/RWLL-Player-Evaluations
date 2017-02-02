@@ -54,6 +54,12 @@
                 </div>
             </div>
 
+            <div id="progress_message" style="display:none;">
+                <p>Saving Data ... Please Wait ...</p>
+            </div>
+
+            <progress style="display:none; margin:0px auto;" id="progressBar" max="100" value="0"></progress>
+
             <div id="submit_container">
                 <input type="hidden" id="origin_lat" name="origin_lat" value="" />
                 <input type="hidden" id="origin_lon" name="origin_lon" value="" />
@@ -101,7 +107,26 @@
             return false;
         }
         if(playerID != '') {
+            document.getElementById("progress_message").style.display = "block";
+            document.getElementById("progressBar").style.display = "block";
+            startProgress();
             return true;
+        }
+    }
+
+    /* Progress Bar */
+
+    function startProgress(){ // to be called by onload event
+        addOne();
+    }
+
+    function addOne() {
+        var bar = document.getElementById("progressBar");
+        if (bar.value < 100) { // this is the max value of the bar and the # of iterations
+            setTimeout(addOne, 500); // this literal value controls the speed
+            bar.value += 1;
+        }else{
+            return;
         }
     }
 
