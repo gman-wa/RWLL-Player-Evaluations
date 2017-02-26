@@ -27,8 +27,8 @@
     $request = array();
     $request['player_eval_id'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (int) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['player_sportsengine_id'] = isset($_POST['player_sportsengine_id']) && $_POST['player_sportsengine_id'] != "" ? (int) filter_var($_POST['player_sportsengine_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
-    $request['player_first_name'] = isset($_POST['player_first_name']) && $_POST['player_first_name'] != "" ? (string) filter_var($_POST['player_first_name'], FILTER_SANITIZE_STRING) : FALSE;
-    $request['player_last_name'] = isset($_POST['player_last_name']) && $_POST['player_last_name'] != "" ? (string) filter_var($_POST['player_last_name'], FILTER_SANITIZE_STRING) : FALSE;
+    $request['player_first_name'] = isset($_POST['player_first_name']) && $_POST['player_first_name'] != "" ? (string) filter_var($_POST['player_first_name'], FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES) : FALSE;
+    $request['player_last_name'] = isset($_POST['player_last_name']) && $_POST['player_last_name'] != "" ? (string) filter_var($_POST['player_last_name'], FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES) : FALSE;
     $request['action'] = isset($_POST['action']) && $_POST['action'] != "" ? (string) filter_var($_POST['action'], FILTER_SANITIZE_STRING) : FALSE;
     $request['origin_lat'] = isset($_POST['origin_lat']) && $_POST['origin_lat'] != "" ? (float) filter_var($_POST['origin_lat'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
     $request['origin_lon'] = isset($_POST['origin_lon']) && $_POST['origin_lon'] != "" ? (float) filter_var($_POST['origin_lon'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
