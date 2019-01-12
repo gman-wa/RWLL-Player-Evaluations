@@ -1,39 +1,39 @@
 {
-  "name": "RWLL Evals",
+  "name": "RNLL Evals",
   "lang": "en-US",
   "icons": [
     {
-      "src": "http://cdn.cybernode.com/i/rwll/apple-touch-icon-36x36.png", // create
+      "src": "https://d2113dl2i3yhp2.cloudfront.net/i/rnll/apple-touch-icon-36x36.png",
       "sizes": "36x36",
       "type": "image/png",
       "density": 0.75
     },
     {
-      "src": "http://cdn.cybernode.com/i/rwll/apple-touch-icon-48x48.png", // create
+      "src": "https://d2113dl2i3yhp2.cloudfront.net/i/rnll/apple-touch-icon-48x48.png",
       "sizes": "48x48",
       "type": "image/png",
       "density": 1.0
     },
     {
-      "src": "http://cdn.cybernode.com/i/rwll/apple-touch-icon-72x72.png",
+      "src": "https://d2113dl2i3yhp2.cloudfront.net/i/rnll/apple-touch-icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
       "density": 1.5
     },
     {
-      "src": "http://cdn.cybernode.com/i/rwll/apple-touch-icon-96x96.png", //create
+      "src": "https://d2113dl2i3yhp2.cloudfront.net/i/rnll/apple-touch-icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
       "density": 2.0
     },
     {
-      "src": "http://cdn.cybernode.com/i/rwll/apple-touch-icon-72x72.png",
+      "src": "https://d2113dl2i3yhp2.cloudfront.net/i/rnll/apple-touch-icon-72x72.png",
       "sizes": "144x144",
       "type": "image/png",
       "density": 3.0
     },
     {
-      "src": "http://cdn.cybernode.com/i/rwll/apple-touch-icon-192x192.png", //create
+      "src": "https://d2113dl2i3yhp2.cloudfront.net/i/rnll/apple-touch-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "density": 4.0

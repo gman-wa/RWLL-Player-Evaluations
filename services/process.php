@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET") {
     <ul>
         <li class="nav_left"><a href="/index.html">Main</a></li>
         <li class="nav_middle">Saving</li>
-        <li class="nav_right"><a href="http://rnll.org"><img src="/assets/img/rednorth-logo-square-min.png"></a></li>
+        <li class="nav_right"><a href="https://www.rnll.org/"><img alt="Redmond North LL" src="https://d2113dl2i3yhp2.cloudfront.net/i/rnll/rednorth-logo-square-min.png"></a></li>
     </ul>
 </nav>
 
