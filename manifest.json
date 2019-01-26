@@ -1,5 +1,6 @@
 {
   "name": "RWLL Evals",
+  "description": "Baseball/Softball Evaluation Day application developed for Redmond West Little League to record scores used to then produce balanced teams",
   "lang": "en-US",
   "icons": [
     {
@@ -41,5 +42,6 @@
   ],
   "start_url": "/index.html",
   "display": "standalone",
-  "orientation": "portrait-primary"
+  "orientation": "portrait-primary",
+  "version": "1.3.6"
 }
