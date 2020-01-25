@@ -6,6 +6,11 @@
  * Time: 8:17 AM
  */
 
+
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', true);
+ini_set('max_execution_time', '300');
+
 // file uploads
 $s3_resize_image = FALSE;
 if($_SERVER['REQUEST_METHOD'] == "POST") {

@@ -14,7 +14,7 @@
  * path for the SDK on your system
  */
 
-define("AWS_PHP_SDK_PATH","/www/common/libs/aws/");
+define("AWS_PHP_SDK_PATH","/var/www/common/vendor/aws/");
 
 require AWS_PHP_SDK_PATH . "aws-autoloader.php";
 
@@ -25,7 +25,8 @@ class s3Upload {
     function __construct() {
 
         $profile = 'production';
-        $path = AWS_PHP_SDK_PATH . 'rwll.s3.config.ini';
+        //$path = AWS_PHP_SDK_PATH . 'rwll.s3.config.ini';
+        $path = getenv('DOCUMENT_ROOT') . '/inc/model/rwll.s3.config.ini';
 
         $provider = \Aws\Credentials\CredentialProvider::ini($profile, $path);
         $provider = \Aws\Credentials\CredentialProvider::memoize($provider);

@@ -16,9 +16,9 @@
             $status = return_status($code);
             $status ? header($status) : NULL ;
         //    include(getenv('DOCUMENT_ROOT') . "/inc/locale/en-us/".$code.".xml");
-            die();
+            die("<h3>error found - ".$message."</h3>");
         } elseif($level == "fatal" && !isset($_SERVER['SERVER_PROTOCOL'])) {
-            die("error");
+            die("<h3>error found np - ".$message."</h3>");
         }
     }
 
@@ -53,6 +53,7 @@
     $image_rotated = FALSE;
 
     if (!move_uploaded_file($tmp_file_name, EVAL_PHOTO_FILEPATH . $full_size_file_name)) {
+        echo "<h3>Move Photo Error</h3>";
         logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Check uploaded file validity.  Error: ".$_FILES['registration_photo']['error']);
         exit;
     }
@@ -61,6 +62,7 @@
 
     if(!stristr($type,"image")) {
         //todo - throw an error
+        echo "<h3>Upload not image</h3>";
         logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Not an image file. Exiting.");
         exit;
     }
