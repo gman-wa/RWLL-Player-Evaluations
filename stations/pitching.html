@@ -121,7 +121,7 @@
         var playerID_error = false;
         var pitch_speed_error = false;
         //    console.log('id: '+playerID);
-        if(playerID == '' || (playerIDInt < 100 || playerIDInt > 3000)) {
+        if(playerID == '' || playerIDInt > 3000) {
             playerID_error = true;
         }
         if(pitch_speed == '') {

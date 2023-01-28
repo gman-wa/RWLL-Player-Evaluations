@@ -106,7 +106,7 @@ function Validatorinator() {
     document.getElementById("player_eval_id_error").style.display = "none";
     var playerID = document.getElementById("player_eval_id").value;
     var playerIDInt = parseInt(playerID);
-    if(playerID == '' || (playerIDInt < 100 || playerIDInt > 3000)) {
+    if(playerID == '' || playerIDInt > 3000) {
         document.getElementById("player_eval_id_error").style.display = "block";
     //    document.getElementById("player_eval_id").focus();
         return false;
