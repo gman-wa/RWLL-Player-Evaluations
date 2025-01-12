@@ -117,10 +117,13 @@
                 logError("warning","image rotate ate up too much memory - ".$e->getMessage()." using non-rotated image");
                 $image_rotated = $image_checker;
             }
-            imagejpeg($image_rotated, EVAL_PHOTO_FILEPATH . $file_name);
+            imagejpeg($image_rotated, EVAL_PHOTO_FILEPATH . $full_size_file_name);
+            if ($resize_smaller) {
+                copy(EVAL_PHOTO_FILEPATH . $full_size_file_name, EVAL_PHOTO_FILEPATH . $file_name);
+            }
             // now we have file we can check
         //    copy(EVAL_PHOTO_FILEPATH . $file_name, EVAL_PHOTO_FILEPATH . $rotated_file_name);
-        } else {
+        } elseif ($resize_smaller) {
             copy(EVAL_PHOTO_FILEPATH . $full_size_file_name, EVAL_PHOTO_FILEPATH . $file_name);
         }
     }
