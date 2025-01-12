@@ -15,8 +15,8 @@
  */
 
 define("AWS_PHP_SDK_PATH","/var/www/common/vendor/aws/");
-
-require AWS_PHP_SDK_PATH . "aws-autoloader.php";
+define("COMPOSER_VENDOR_DIR","/var/www/common/vendor/");
+require COMPOSER_VENDOR_DIR . "autoload.php";
 
 class s3Upload {
 

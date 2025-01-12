@@ -27,9 +27,9 @@
     $request = array();
     $request['player_eval_id'] = isset($_POST['player_eval_id']) && $_POST['player_eval_id'] != "" ? (int) filter_var($_POST['player_eval_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
     $request['player_sportsengine_id'] = isset($_POST['player_sportsengine_id']) && $_POST['player_sportsengine_id'] != "" ? (int) filter_var($_POST['player_sportsengine_id'], FILTER_SANITIZE_NUMBER_INT) : FALSE;
-    $request['player_first_name'] = isset($_POST['player_first_name']) && $_POST['player_first_name'] != "" ? (string) filter_var($_POST['player_first_name'], FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES) : FALSE;
-    $request['player_last_name'] = isset($_POST['player_last_name']) && $_POST['player_last_name'] != "" ? (string) filter_var($_POST['player_last_name'], FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES) : FALSE;
-    $request['action'] = isset($_POST['action']) && $_POST['action'] != "" ? (string) filter_var($_POST['action'], FILTER_SANITIZE_STRING) : FALSE;
+    $request['player_first_name'] = isset($_POST['player_first_name']) && $_POST['player_first_name'] != "" ? (string) filter_var($_POST['player_first_name'],FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_NO_ENCODE_QUOTES) : FALSE;
+    $request['player_last_name'] = isset($_POST['player_last_name']) && $_POST['player_last_name'] != "" ? (string) filter_var($_POST['player_last_name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_NO_ENCODE_QUOTES) : FALSE;
+    $request['action'] = isset($_POST['action']) && $_POST['action'] != "" ? (string) htmlspecialchars($_POST['action']) : FALSE;
     $request['origin_lat'] = isset($_POST['origin_lat']) && $_POST['origin_lat'] != "" ? (float) filter_var($_POST['origin_lat'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
     $request['origin_lon'] = isset($_POST['origin_lon']) && $_POST['origin_lon'] != "" ? (float) filter_var($_POST['origin_lon'], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION) : FALSE;
 
@@ -51,10 +51,11 @@
 
     $image_checker = FALSE;
     $image_rotated = FALSE;
+    $resize_smaller = FALSE; // we can skip the resize here and use cloudflare image transformation out of s3
 
     if (!move_uploaded_file($tmp_file_name, EVAL_PHOTO_FILEPATH . $full_size_file_name)) {
         echo "<h3>Move Photo Error</h3>";
-        logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Check uploaded file validity.  Error: ".$_FILES['registration_photo']['error']);
+        logError("warning",$request['player_eval_id'] . " Photo upload unsuccessful. Check uploaded file validity. Size: " . $size . " Error: ".$_FILES['registration_photo']['error']);
         exit;
     }
 
@@ -70,7 +71,7 @@
     // copy the image and keep the original
     // copy(EVAL_PHOTO_FILEPATH . $file_name, EVAL_PHOTO_FILEPATH . $full_size_file_name);
 
-    if($type == "image/jpeg") {
+    if($type == "image/jpeg") { // why do we only do this for jpegs?
 
         // do we have a rotated image?
         $exif = exif_read_data(EVAL_PHOTO_FILEPATH . $full_size_file_name); //,'IFD0');
@@ -125,70 +126,74 @@
     }
 
     if($type != "image/jpeg") {
+        logError('info','image type: ' . $type);
         copy(EVAL_PHOTO_FILEPATH . $full_size_file_name, EVAL_PHOTO_FILEPATH . $file_name);
     }
 
 //    clearstatcache();
-    $iwidth = (int) 0;
-    $iheight = (int) 0;
-    list($iwidth,$iheight) = getimagesize(EVAL_PHOTO_FILEPATH . $file_name);
-    if($iwidth > "300") {
-        logError("warning",$request['player_eval_id'] . " Uploaded file pixel width too large: " . $iwidth . "/".$iheight." - Performing resize/resample");
-        $max_width = (int) 300;
 
-        /*
-        if($iwidth > $iheight) { // landscape
-            $reduce_ratio = $max_width/$iwidth;
-        }
+    if($resize_smaller) {
 
-        if($iheight > $iwidth) { // portrait
-            $reduce_ratio = $max_width/$iheight;
-        }
-        */
-        $reduce_ratio = $max_width/$iwidth;
-        $max_height =floor($iheight*$reduce_ratio);
-    //    $max_height = (int) 300;
+        $iwidth = (int)0;
+        $iheight = (int)0;
+        list($iwidth, $iheight) = getimagesize(EVAL_PHOTO_FILEPATH . $file_name);
+        if ($iwidth > "300") {
+            logError("warning", $request['player_eval_id'] . " Uploaded file pixel width too large: " . $iwidth . "/" . $iheight . " - Performing resize/resample");
+            $max_width = (int)300;
 
-        logError("warning",$request['player_eval_id'] . " New Width: " . $max_width . " | New Height: ". $max_height. " | Type: ".$type);
-
-        // Resample
-        $image_p = imagecreatetruecolor($max_width, $max_height);
-
-        logError("warning",$request['player_eval_id'] . " Filepath: ".EVAL_PHOTO_FILEPATH . $file_name);
-
-        if($type == "image/jpeg") {
-            if($rotate_fix) {
-                // we already have this
-                $image = $image_rotated;
-            } else {
-                $image = imagecreatefromjpeg(EVAL_PHOTO_FILEPATH . $file_name);
+            /*
+            if($iwidth > $iheight) { // landscape
+                $reduce_ratio = $max_width/$iwidth;
             }
-        } elseif($type == "image/gif") {
-            $image = imagecreatefromgif(EVAL_PHOTO_FILEPATH . $file_name);
-        } elseif($type == "image/png") {
-            $image = imagecreatefrompng(EVAL_PHOTO_FILEPATH . $file_name);
+
+            if($iheight > $iwidth) { // portrait
+                $reduce_ratio = $max_width/$iheight;
+            }
+            */
+            $reduce_ratio = $max_width / $iwidth;
+            $max_height = floor($iheight * $reduce_ratio);
+            //    $max_height = (int) 300;
+
+            logError("warning", $request['player_eval_id'] . " New Width: " . $max_width . " | New Height: " . $max_height . " | Type: " . $type);
+
+            // Resample
+            $image_p = imagecreatetruecolor($max_width, $max_height);
+
+            logError("warning", $request['player_eval_id'] . " Filepath: " . EVAL_PHOTO_FILEPATH . $file_name);
+
+            if ($type == "image/jpeg") {
+                if ($rotate_fix) {
+                    // we already have this
+                    $image = $image_rotated;
+                } else {
+                    $image = imagecreatefromjpeg(EVAL_PHOTO_FILEPATH . $file_name);
+                }
+            } elseif ($type == "image/gif") {
+                $image = imagecreatefromgif(EVAL_PHOTO_FILEPATH . $file_name);
+            } elseif ($type == "image/png") {
+                $image = imagecreatefrompng(EVAL_PHOTO_FILEPATH . $file_name);
+            }
+
+
+            //    fastimagecopyresampled($image_p, $image, 0, 0, 0, 0, $max_width, $max_height, $iwidth, $iheight);
+            imagecopyresampled($image_p, $image, 0, 0, 0, 0, $max_width, $max_height, $iwidth, $iheight);
+            /*
+            if($type == "image/jpeg") {
+                imagejpeg($image_p,EVAL_PHOTO_FILEPATH . $file_name);
+            } elseif($type == "image/gif") {
+                imagegif($image_p,EVAL_PHOTO_FILEPATH . $file_name);
+            } elseif($type == "image/png") {
+                imagepng($image_p,EVAL_PHOTO_FILEPATH . $file_name);
+            }
+            */
+            // always create jpeg
+            imagejpeg($image_p, EVAL_PHOTO_FILEPATH . $final_file_name);
+            imagedestroy($image_p);
+            if ($image_checker) imagedestroy($image_checker);
+            if ($image_rotated) imagedestroy($image_rotated);
         }
-
-
-
-    //    fastimagecopyresampled($image_p, $image, 0, 0, 0, 0, $max_width, $max_height, $iwidth, $iheight);
-        imagecopyresampled($image_p, $image, 0, 0, 0, 0, $max_width, $max_height, $iwidth, $iheight);
-        /*
-        if($type == "image/jpeg") {
-            imagejpeg($image_p,EVAL_PHOTO_FILEPATH . $file_name);
-        } elseif($type == "image/gif") {
-            imagegif($image_p,EVAL_PHOTO_FILEPATH . $file_name);
-        } elseif($type == "image/png") {
-            imagepng($image_p,EVAL_PHOTO_FILEPATH . $file_name);
-        }
-        */
-        // always create jpeg
-        imagejpeg($image_p,EVAL_PHOTO_FILEPATH . $final_file_name);
-        imagedestroy($image_p);
-        if($image_checker) imagedestroy($image_checker);
-        if($image_rotated) imagedestroy($image_rotated);
+        chmod(EVAL_PHOTO_FILEPATH . $final_file_name,0666);
     }
-    chmod(EVAL_PHOTO_FILEPATH . $final_file_name,0666);
 
 //    echo "<p>Image Uploaded Successfully - Local</p>";
 
@@ -196,24 +201,31 @@
 
     // now move to S3
 
-    $file['file_name'] = $final_file_name;
-    $file['local_path'] = EVAL_PHOTO_FILEPATH . $final_file_name;
+    if($resize_smaller) {
+        $file['file_name'] = strtolower($final_file_name);
+        $file['local_path'] = EVAL_PHOTO_FILEPATH . $final_file_name;
+    }
 
-    $file_original['file_name'] = $full_size_file_name;
+    $file_original['file_name'] = strtolower($full_size_file_name);
     $file_original['local_path'] = EVAL_PHOTO_FILEPATH . $full_size_file_name;
 
     include(getenv('DOCUMENT_ROOT') . "/inc/model/s3.upload.class.php");
 
     $s3 = new s3Upload();
 
-    $s3_resize_image = $s3->uploadPlayerImage($file);
-    $s3->uploadPlayerImage($file_original);
+    if($resize_smaller) {
+        $s3_resize_image = $s3->uploadPlayerImage($file);
+    }
 
-    if($s3_resize_image) {
+
+
+    if($s3->uploadPlayerImage($file_original)) {
         $success = TRUE;
         include(getenv('DOCUMENT_ROOT') . "/inc/model/rwll.mysql.class.php");
         $rdb = new eval_db();
         $request['player_img'] = $final_file_name;
         $success = $rdb->saveRegistration($request);
+    } else {
+        logError('error', 'Unable to upload player image to S3');
     }
 ?>

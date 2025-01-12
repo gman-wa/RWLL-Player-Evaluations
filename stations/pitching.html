@@ -159,7 +159,8 @@
         var lpi =function() {
             var pi = new Image();
             pi.onerror=showError;
-            pi.src='https://s3.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/player-image-'+player_id+'.jpg';
+            // pi.src='https://s3.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/player-image-'+player_id+'.jpg';
+            pi.src='https://garth.org/cdn-cgi/image/width=150,format=auto/https://s3.us-east-1.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/original-player-image-'+player_id+'.jpg';
             var h = document.getElementById('player_photo_container');h.innerHTML = ''; h.appendChild(pi);
         };
 
