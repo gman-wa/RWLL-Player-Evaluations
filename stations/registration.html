@@ -164,6 +164,97 @@
             input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
         });
     }( document, window, 0 ));
+
+    /* Image resizing on device */
+
+    document.getElementById('registration_photo').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            // Process the file (read, resize, crop)
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Now the image is loaded, proceed with resize/crop
+                    processImage(img);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file); // or readAsArrayBuffer
+        }
+    });
+
+    function processImage(img) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Example: Resize the image to a max width of 300px, maintaining aspect ratio
+        const maxWidth = 300;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+            height = height * (maxWidth / width);
+            width = maxWidth;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw the full image at the new dimensions (resize)
+        ctx.drawImage(img, 0, 0, width, height);
+
+        <?php
+        /*
+        // Example: Crop from the top-left (0,0) with 100x100 dimensions from the already resized image
+        // You would typically define an area based on user interaction
+        const cropX = 0;
+        const cropY = 0;
+        const cropWidth = 100;
+        const cropHeight = 100;
+        const croppedCanvas = document.createElement('canvas');
+        croppedCanvas.width = cropWidth;
+        croppedCanvas.height = cropHeight;
+        const croppedCtx = croppedCanvas.getContext('2d');
+
+        // Arguments: sourceImage, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
+        croppedCtx.drawImage(canvas, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+        */
+        ?>
+        // Use the croppedCanvas for the final upload
+
+        prepareForUpload(canvas);
+    }
+
+    function prepareForUpload(canvas) {
+        canvas.toBlob(function(blob) {
+
+            <?php
+            // The 'blob' object is your final image file
+            // Now you can upload it using FormData
+            //const formData = new FormData();
+            //formData.append('imageFile', blob, 'cropped_image.jpg');
+
+            // Example upload using Fetch API
+            // fetch('/upload-endpoint', {
+            //     method: 'POST',
+            //     body: formData
+            // });
+            ?>
+            // 1. Create a File object from the blob
+            const file = new File([blob], "cropped_image_for_upload.jpg", { type: "image/jpeg" }); // need the actual name
+
+            // 2. Use DataTransfer to simulate a file selection
+            const container = new DataTransfer();
+            container.items.add(file);
+
+            // 3. Assign the file to the original field
+            const fileInput = document.getElementById('registration_photo');
+            fileInput.files = container.files;
+
+        }, 'image/jpeg', 0.9); // Specify image format and quality
+    }
+
 </script>
 </body>
 </html>

@@ -51,7 +51,7 @@
 
     $image_checker = FALSE;
     $image_rotated = FALSE;
-    $resize_smaller = FALSE; // we can skip the resize here and use cloudflare image transformation out of s3
+    $resize_smaller = FALSE; // we can skip the resize here and use cloudflare image transformation out of s3 - 20260102 - mobile device is resizing to 300 via JS
 
     if (!move_uploaded_file($tmp_file_name, EVAL_PHOTO_FILEPATH . $full_size_file_name)) {
         echo "<h3>Move Photo Error</h3>";
