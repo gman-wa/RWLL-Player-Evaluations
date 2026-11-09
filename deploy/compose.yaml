@@ -29,7 +29,7 @@ services:
       MAX_BIB: "3000"
       # player photos: S3, shown through Cloudflare image resizing (src/Photos.php)
       PHOTO_STORAGE: s3
-      PHOTO_URL: "https://garth.org/cdn-cgi/image/width={w},format=auto/https://s3.us-east-1.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/{file}"
+      PHOTO_URL: "https://rwll.garth.org/cdn-cgi/image/width={w},format=auto/https://s3.us-east-1.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/{file}"
       S3_BUCKET: cdn.cybernode.com
       S3_PREFIX: i/rwll/player-images/baseball/
       S3_REGION: us-east-1
