@@ -1,0 +1,14 @@
+{
+  "name": "RWLL Evals",
+  "short_name": "RWLL Evals",
+  "description": "Little League evaluation day: register players and record station scores",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f4ef",
+  "theme_color": "#1c5634",
+  "icons": [
+    { "src": "/assets/icon-128.png", "sizes": "128x128", "type": "image/png" }
+  ]
+}

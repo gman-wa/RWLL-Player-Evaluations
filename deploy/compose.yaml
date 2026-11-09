@@ -1,0 +1,65 @@
+# RWLL evals on the EC2 - one container behind the host's Apache (host-apache/rwll-evals.conf), next to Football-NG
+#
+# deploy.sh runs this with IMAGE (the ECR image to run) and VERSION (its commit) in .env next to it, in
+# /opt/rwll-evals.
+
+name: rwll-evals
+
+services:
+  app:
+    image: ${IMAGE:?IMAGE is the ECR image to run}
+    restart: unless-stopped
+    # Datadog - the agent on the host reads this container's stdout / stderr from docker (nothing runs in here).
+    # Apache's access lines go through Datadog's apache parser, the app's error lines are JSON (log_error()).
+    # The health checks (docker's and deploy.sh's, both curl) are dropped before they're sent.
+    labels:
+      com.datadoghq.tags.service: rwll-evals
+      com.datadoghq.tags.env: prod
+      com.datadoghq.tags.version: ${VERSION:-unknown}
+      com.datadoghq.ad.logs: >-
+        [{"source": "apache", "service": "rwll-evals",
+          "log_processing_rules": [{"type": "exclude_at_match", "name": "health_checks",
+                                    "pattern": "\"GET /api/player/1 HTTP/1\\.1\" \\d+ \\d+ \"-\" \"curl/"}]}]
+    # only the host's Apache can reach it - Football-NG is on 8081
+    ports:
+      - "127.0.0.1:8082:80"
+    environment:
+      SERVER_LOCATION: aws
+      LOGLEVEL: warn
+      MAX_BIB: "3000"
+      # player photos: S3, shown through Cloudflare image resizing (src/Photos.php)
+      PHOTO_STORAGE: s3
+      PHOTO_URL: "https://garth.org/cdn-cgi/image/width={w},format=auto/https://s3.us-east-1.amazonaws.com/cdn.cybernode.com/i/rwll/player-images/baseball/{file}"
+      S3_BUCKET: cdn.cybernode.com
+      S3_PREFIX: i/rwll/player-images/baseball/
+      S3_REGION: us-east-1
+      S3_ACL: public-read
+      # Datadog APM (ddtrace) - the agent on the host, which already accepts traces from containers
+      # (apm_non_local_traffic, set up for Football-NG). log_error() adds the trace ids itself.
+      DD_SERVICE: rwll-evals
+      DD_ENV: prod
+      DD_VERSION: ${VERSION:-unknown}
+      DD_AGENT_HOST: host.docker.internal
+      DD_LOGS_INJECTION: "false"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    # the Secrets Manager JSON (DB_HOST, DB_USER, DB_PASSWORD, ADMIN_PIN) - env() in src/bootstrap.php reads it
+    secrets:
+      - settings
+    healthcheck:
+      # a player lookup reads the database, so this checks RDS too
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost/api/player/1"]
+      interval: 60s
+      timeout: 10s
+      start_period: 20s
+      retries: 3
+    mem_limit: 320m
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "5"
+
+secrets:
+  settings:
+    file: /etc/rwll-evals/settings.json

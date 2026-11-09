@@ -1,0 +1,17 @@
+{
+    "name": "rwll/player-evaluations",
+    "description": "Little League evaluation day app",
+    "license": "Apache-2.0",
+    "require": {
+        "php": "8.5.*",
+        "aws/aws-sdk-php": "3.*"
+    },
+    "scripts": {
+        "pre-autoload-dump": "Aws\\Script\\Composer\\Composer::removeUnusedServices"
+    },
+    "extra": {
+        "aws/aws-sdk-php": [
+            "S3"
+        ]
+    }
+}

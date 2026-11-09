@@ -1,0 +1,9 @@
+# the build context - none of this belongs in the image
+.git
+.github
+.idea
+vendor
+storage
+local.env
+scripts
+**/.DS_Store
