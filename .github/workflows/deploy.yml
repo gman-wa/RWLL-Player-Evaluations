@@ -5,7 +5,7 @@
 #   AWS_DEPLOY_ROLE_ARN  the role GitHub assumes through OIDC (rwll-evals-deploy)
 #   ECR_REPOSITORY       rwll-evals
 #   EC2_INSTANCE_ID      i-...
-#   SETTINGS_SECRET_ID   the Secrets Manager secret's ARN (or name) - rwll-evals/prod
+#   SETTINGS_SECRET_ID   the Secrets Manager secret's ARN (or name) - rwll-evals
 #   BUILD_RUNNER         optional - an arm64 runner label (ubuntu-24.04-arm) to build natively instead of under QEMU
 name: deploy
 
@@ -113,3 +113,27 @@ jobs:
           aws ssm get-command-invocation --command-id "$id" --instance-id "$INSTANCE" --query StandardErrorContent --output text >&2
           echo "status: $status"
           [ "$status" = "Success" ]
+
+  # after a successful deploy: a GitHub release for the top CHANGELOG.md section, if its version isn't tagged yet
+  release:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          heading=$(grep -m1 '^## [0-9]' CHANGELOG.md || true)
+          [ -n "$heading" ] || { echo "no version section in CHANGELOG.md"; exit 0; }
+          version=$(echo "$heading" | awk '{print $2}')
+          title=${heading#\#\# }
+          if gh release view "v$version" > /dev/null 2>&1; then
+            echo "v$version is already released - add a new section to CHANGELOG.md for a new release"
+            exit 0
+          fi
+          # the section's body: from under its heading to the next ## heading
+          awk -v h="$heading" '$0 == h {on = 1; next} on && /^## / {exit} on' CHANGELOG.md > notes.md
+          gh release create "v$version" --target "$GITHUB_SHA" --title "$title" --notes-file notes.md

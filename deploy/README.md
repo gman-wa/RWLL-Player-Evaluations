@@ -21,6 +21,8 @@ A push to `main` runs `.github/workflows/deploy.yml`:
    - starts the new image;
    - waits for `127.0.0.1:8082/api/player/1` to answer (a player lookup, so it checks RDS too);
    - goes back to the previous image if it doesn't.
+4. A GitHub release, if the deploy worked and the top `## x.y.z - title` section of `CHANGELOG.md` isn't tagged
+   yet: tag `vx.y.z` on the deployed commit, with that section as the release notes.
 
 ## One-time setup
 
@@ -40,7 +42,7 @@ If basic scanning on push is filtered to `football-ng`, add `rwll-evals` to the 
 
 ### 2. The settings secret
 
-One Secrets Manager secret named `rwll-evals/prod`, "Other type of secret". Key names are case-sensitive; `deploy.sh` refuses to deploy if any of these are missing.
+One Secrets Manager secret named `rwll-evals`, "Other type of secret". Key names are case-sensitive; `deploy.sh` refuses to deploy if any of these are missing.
 
 | key | |
 |---|---|
@@ -52,7 +54,7 @@ One Secrets Manager secret named `rwll-evals/prod`, "Other type of secret". Key 
 Optional keys: `DB_NAME` (default `RWLL`). Any other setting in `CLAUDE.md` can go here too, but the non-secret ones live in `compose.yaml`.
 
 ```sh
-aws secretsmanager create-secret --name rwll-evals/prod --secret-string file://settings.json
+aws secretsmanager create-secret --name rwll-evals --secret-string file://settings.json
 rm settings.json
 ```
 
@@ -62,16 +64,21 @@ To change a value, edit it in the console and deploy again (re-run the workflow)
 
 ### 3. The EC2's instance role
 
-*(done for Football)* SSM, ECR read, and the IMDS hop limit of 2 that lets containers use the role.
+*(done for Football)* SSM, `ecr:GetAuthorizationToken`, and the IMDS hop limit of 2 that lets containers use the role.
+Football's ECR pull permissions are scoped to its own repository, so this repository needs its own.
 
-Add a second inline policy, `rwll-evals`:
+Add a second inline policy, `rwll-evals` (the secret's name is in the `secret:` part of the ARN; `-*` matches the random
+suffix Secrets Manager adds):
 
 ```json
 {
   "Version": "2012-10-17",
   "Statement": [
+    {"Sid": "PullRwllImages", "Effect": "Allow",
+     "Action": ["ecr:BatchGetImage", "ecr:GetDownloadUrlForLayer", "ecr:BatchCheckLayerAvailability"],
+     "Resource": "arn:aws:ecr:us-west-2:ACCOUNT:repository/rwll-evals"},
     {"Sid": "ReadRwllSettings", "Effect": "Allow", "Action": "secretsmanager:GetSecretValue",
-     "Resource": "arn:aws:secretsmanager:us-west-2:ACCOUNT:secret:rwll-evals/prod-*"},
+     "Resource": "arn:aws:secretsmanager:us-west-2:ACCOUNT:secret:rwll-evals-*"},
     {"Sid": "UploadPlayerPhotos", "Effect": "Allow", "Action": ["s3:PutObject", "s3:PutObjectAcl"],
      "Resource": "arn:aws:s3:::cdn.cybernode.com/i/rwll/player-images/*"}
   ]
@@ -154,7 +161,7 @@ On the RWLL repo, under Settings > Secrets and variables > Actions > **Variables
 | `AWS_DEPLOY_ROLE_ARN` | `arn:aws:iam::ACCOUNT:role/rwll-evals-deploy` |
 | `ECR_REPOSITORY` | `rwll-evals` |
 | `EC2_INSTANCE_ID` | `i-INSTANCE` (the same instance as Football) |
-| `SETTINGS_SECRET_ID` | the `rwll-evals/prod` secret's ARN (or name) |
+| `SETTINGS_SECRET_ID` | the `rwll-evals` secret's ARN (or name) |
 | `BUILD_RUNNER` | optional: `ubuntu-24.04-arm` builds natively |
 
 ### 8. Datadog
@@ -184,7 +191,7 @@ cat .env                                  # IMAGE= what's running
 To roll back, either re-run an older successful workflow run in GitHub, or run this on the server:
 
 ```sh
-sudo bash /opt/rwll-evals/deploy.sh ACCOUNT.dkr.ecr.us-west-2.amazonaws.com/rwll-evals:<older sha> rwll-evals/prod
+sudo bash /opt/rwll-evals/deploy.sh ACCOUNT.dkr.ecr.us-west-2.amazonaws.com/rwll-evals:<older sha> rwll-evals
 ```
 
 ## Cutover from the old native site

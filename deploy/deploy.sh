@@ -43,7 +43,9 @@ start() {
     # VERSION (the tag - the commit sha, shortened) is Datadog's version tag
     tag=${1##*:}
     printf 'IMAGE=%s\nVERSION=%s\n' "$1" "${tag:0:7}" > "$DIR/.env"
-    docker compose up -d --remove-orphans
+    # always recreate: with the same image (a re-run after a secret change) compose would keep the old container,
+    # still mounted on the settings file the mv above replaced
+    docker compose up -d --remove-orphans --force-recreate
 }
 
 healthy() {

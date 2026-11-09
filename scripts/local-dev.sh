@@ -6,7 +6,7 @@
 #   scripts/local-dev.sh build     rebuild the image (Dockerfile, docker/*, composer.json changes)
 #   scripts/local-dev.sh logs      follow the app's logs
 #   scripts/local-dev.sh shell     sh inside the app container
-#   scripts/local-dev.sh db-user   one time: create the rwll_db user from local.env (asks for the mariadb root password)
+#   scripts/local-dev.sh db-user   one time: create the RWLL table (db/schema.sql) and the app's db user from local.env (asks for the mariadb root password)
 #   scripts/local-dev.sh sql       mariadb client on RWLL as the app user
 #   scripts/local-dev.sh status    app and database container IPs
 #
@@ -113,12 +113,14 @@ case "${1:-}" in
              if [ -z "$pw" ]; then read -r -s -p "mariadb root password: " pw </dev/tty; echo; fi
              user=$(env_value DB_USER); pass=$(env_value DB_PASSWORD); db=$(env_value DB_NAME)
              [ "$pass" != "change-me" ] || { echo "Set DB_PASSWORD in $ENV_FILE first"; exit 1; }
+             # the schema first (creates RWLL.evaluations if it's missing), then the user
              # the app only reads and upserts - no DELETE or DDL
-             container exec -i -e MYSQL_PWD="$pw" "$DB" mariadb -uroot <<SQL
+             { cat db/schema.sql; cat <<SQL
 CREATE USER IF NOT EXISTS '$user'@'%' IDENTIFIED BY '$pass';
 ALTER USER '$user'@'%' IDENTIFIED BY '$pass';
 GRANT SELECT, INSERT, UPDATE ON \`$db\`.* TO '$user'@'%';
 SQL
+             } | container exec -i -e MYSQL_PWD="$pw" "$DB" mariadb -uroot
              echo "$user can use $db" ;;
     *)       sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
 esac

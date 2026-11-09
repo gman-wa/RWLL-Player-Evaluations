@@ -22,7 +22,7 @@ scripts/local-dev.sh down
 scripts/local-dev.sh build     # after Dockerfile / docker/* / composer.json changes
 scripts/local-dev.sh logs
 scripts/local-dev.sh shell
-scripts/local-dev.sh db-user   # one time: create DB_USER from local.env with SELECT/INSERT/UPDATE on RWLL (asks for mariadb root)
+scripts/local-dev.sh db-user   # one time: load db/schema.sql, create DB_USER from local.env with SELECT/INSERT/UPDATE on RWLL (asks for mariadb root)
 scripts/local-dev.sh sql       # mariadb client on RWLL as the app user
 ```
 
@@ -46,12 +46,13 @@ src/
   http.php         render(), json_response(), validation helpers, player_json()
   views/           plain PHP templates, rendered inside layout.php
 docker/            apache-rwll.conf, php.ini, entrypoint.sh
+db/schema.sql      the one table, and the app user's grants
 ```
 
 ## How it works
 
-- **`STATIONS` in `src/stations.php` drives everything**: the station form fields, server validation (`station_values()`), the "already scored here" check (`station_scored()`: any of the station's columns non-NULL), the admin table and the home page. To add a field, add it there plus a column in `evaluations`. To add a station, also add its path to `PAGES` in `public/sw.js`. Field types: `scale` (tap buttons min..max, always sent), `number` (decimal text input, `required` or blank = NULL), `yesno` (0/1).
-- **Database**: one table, `RWLL.evaluations`, one row per bib (`player_eval_id`, unique). Registration and each station **upsert only their own columns** (`Db::upsert`, `INSERT ... ON DUPLICATE KEY UPDATE`), plus `eval_date` and the phone's `origin_lat/lon`. Scores can be saved for a bib that hasn't registered yet; the UI warns and the button turns into "Save anyway". Names are stored raw (the old app HTML-encoded them) and escaped with `h()` on output. Bibs are 1..`MAX_BIB` (3000). The column `player_sportsengine_id` is the Sports Connect ID; the name is historical.
+- **`STATIONS` in `src/stations.php` drives everything**: the station form fields, server validation (`station_values()`), the "already scored here" check (`station_scored()`: any of the station's columns non-NULL), the admin table and the home page. To add a field, add it there plus a column in `evaluations` and `db/schema.sql`. To add a station, also add its path to `PAGES` in `public/sw.js`. Field types: `scale` (tap buttons min..max, always sent), `number` (decimal text input, `required` or blank = NULL), `yesno` (0/1).
+- **Database**: one table, `RWLL.evaluations` (`db/schema.sql`; keep it in step with the real table), one row per bib (`player_eval_id`, unique). Registration and each station **upsert only their own columns** (`Db::upsert`, `INSERT ... ON DUPLICATE KEY UPDATE`), plus `eval_date` and the phone's `origin_lat/lon`. Scores can be saved for a bib that hasn't registered yet; the UI warns and the button turns into "Save anyway". Names are stored raw (the old app HTML-encoded them) and escaped with `h()` on output. Bibs are 1..`MAX_BIB` (3000). The column `player_sportsengine_id` is the Sports Connect ID; the name is historical.
 - **JSON api** (all responses `Cache-Control: no-store`):
   - `GET /api/player/{bib}?station=x` returns `{bib, registered, first, last, connectId, photo}`, plus `scored` and current `scores` when a station is given.
   - `POST /api/register` takes `{bib, first, last, connectId, photo: dataURL|null, lat, lon}`.
@@ -80,12 +81,13 @@ docker/            apache-rwll.conf, php.ini, entrypoint.sh
 
 ## Production and deploy
 
-See `deploy/README.md`. It's the same pipeline as Football-NG, on the same EC2, with RWLL's own ECR repo (`rwll-evals`), secret (`rwll-evals/prod`) and deploy role (`rwll-evals-deploy`).
+See `deploy/README.md`. It's the same pipeline as Football-NG, on the same EC2, with RWLL's own ECR repo (`rwll-evals`), secret (`rwll-evals`) and deploy role (`rwll-evals-deploy`).
 
 - A push to `main` runs `.github/workflows/deploy.yml`:
   1. a syntax check (there are no tests);
   2. an arm64 image to ECR;
   3. SSM runs `deploy/deploy.sh` on the EC2. It writes the secret to `/etc/rwll-evals/settings.json`, which is mounted as `/run/secrets/settings`, and starts `deploy/compose.yaml`. It rolls back if `127.0.0.1:8082/api/player/1` (which reads RDS) doesn't answer.
+  4. a GitHub release, when the top `## x.y.z - title` section of `CHANGELOG.md` has no tag yet. `CHANGELOG.md` is public release notes: write it for coaches and league admins, with no infrastructure details (hostnames, account ids, role names). To make a release, add a section with the next version at the top.
 - **Request path:** Cloudflare → the host's Apache (`deploy/host-apache/rwll-evals.conf`, port 443) → the container on 127.0.0.1:8082 over plain http. Football-NG is on 8081. The container's remoteip trusts `X-Forwarded-For` from 172.16.0.0/12.
 - **Production settings:** the non-secret ones are in `compose.yaml`: S3 photos, the Cloudflare `PHOTO_URL`, the DD tags.
 - **Datadog:**
